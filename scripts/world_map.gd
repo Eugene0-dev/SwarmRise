@@ -139,7 +139,7 @@ func map_gen() -> void:
 			if noise_val < 0.5 and noise_val > 0 and tile_type == t_types.GRASS:
 				set_bushes(noise_val, obj_noise_val, pos)
 				set_trees(noise_val, obj_noise_val, pos)
-				if Global.throw_dice(500, 1):
+				if Global.throw_dice(250, 1):
 					Global.emit_signal("grow_plant", {"type": Grass.types.values().pick_random(), "pos": pos_px})
 			
 			if Global.throw_dice(2000, 1):

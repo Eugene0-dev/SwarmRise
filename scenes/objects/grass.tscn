@@ -1,16 +1,18 @@
 [gd_scene format=3 uid="uid://bymcu5xwjds4o"]
 
-[ext_resource type="Script" uid="uid://bw8phpc2x6ncs" path="res://scripts/objects/grass.gd" id="1_d8nlo"]
+[ext_resource type="Script" uid="uid://dnoro1f16r7ra" path="res://scripts/objects/grass.gd" id="1_d8nlo"]
 [ext_resource type="Texture2D" uid="uid://bqpce4aadyvi5" path="res://assets/tilesets/DIY/Grass.png" id="2_q6u3p"]
 [ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="2_q101s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u26i2"]
 resource_local_to_scene = true
 atlas = ExtResource("2_q6u3p")
-region = Rect2(1, 1, 8, 8)
+region = Rect2(46, 28, 8, 8)
 
 [node name="Grass" type="Node2D" unique_id=2130800029]
 script = ExtResource("1_d8nlo")
+atlas_columns = 6
+type = 23
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=406831346]
 material = ExtResource("2_q101s")
