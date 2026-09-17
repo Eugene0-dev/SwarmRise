@@ -1380,7 +1380,7 @@ position = Vector2(1014, 340)
 position = Vector2(659, 262)
 
 [node name="Item2" parent="TileMapLayer3" unique_id=194306710 instance=ExtResource("10_xapkw")]
-position = Vector2(824, 491)
+position = Vector2(828, 490)
 item_id = 0
 
 [node name="Source_0" parent="." unique_id=428245751 instance=ExtResource("4_27ey4")]
@@ -1391,7 +1391,7 @@ position = Vector2(859, 336)
 item_id = 14
 
 [node name="Item3" parent="." unique_id=1637652836 instance=ExtResource("10_xapkw")]
-position = Vector2(647, 498)
+position = Vector2(639, 496)
 item_id = 1
 
 [node name="Item4" parent="." unique_id=1053335330 instance=ExtResource("10_xapkw")]
@@ -1399,14 +1399,14 @@ position = Vector2(624, 321)
 item_id = 20
 
 [node name="Queen" parent="." unique_id=386023745 instance=ExtResource("11_7ev63")]
-position = Vector2(468, 354)
+position = Vector2(467, 357)
 
 [node name="Drone" parent="." unique_id=1305847055 instance=ExtResource("12_ien41")]
-position = Vector2(418, 355)
+position = Vector2(418, 353)
 sprite_frames = SubResource("SpriteFrames_lrc0w")
 
 [node name="Egg" parent="." unique_id=892900747 instance=ExtResource("13_jct5c")]
-position = Vector2(425, 330)
+position = Vector2(466, 310)
 sprite_frames = SubResource("SpriteFrames_qsm7a")
 
 [node name="Princess" parent="." unique_id=419332210 instance=ExtResource("14_v36y7")]

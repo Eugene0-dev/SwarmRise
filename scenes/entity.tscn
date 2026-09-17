@@ -7,8 +7,7 @@
 resource_local_to_scene = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_iiwub"]
-resource_local_to_scene = true
-radius = 17.029387
+radius = 4.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iiwub"]
 resource_local_to_scene = true
@@ -28,6 +27,8 @@ script = ExtResource("1_iiwub")
 sprite_frames = SubResource("SpriteFrames_xhrbk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=283948992]
+z_index = 2
+y_sort_enabled = true
 shape = SubResource("CircleShape2D_iiwub")
 
 [node name="Sight_Area" type="Area2D" parent="." unique_id=643319598]

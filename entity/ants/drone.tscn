@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bn2fbjhbjvhxe"]
 
 [ext_resource type="PackedScene" uid="uid://c7mwnlui8vo04" path="res://scenes/entity.tscn" id="1_ol35h"]
-[ext_resource type="Script" uid="uid://bawrrdqywsdym" path="res://scripts/entity/drone.gd" id="2_k5amr"]
+[ext_resource type="Script" uid="uid://sr2goqa14rih" path="res://scripts/entity/drone.gd" id="2_k5amr"]
 [ext_resource type="Texture2D" uid="uid://c5nvrsw3r8pud" path="res://assets/Ants/Ant-Drone.png" id="3_k5amr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gni2j"]
@@ -324,7 +324,7 @@ region = Rect2(130, 455, 65, 65)
 atlas = ExtResource("3_k5amr")
 region = Rect2(195, 455, 65, 65)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_vpqw1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5amr"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -668,47 +668,41 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_yosg6"]
-resource_local_to_scene = true
-radius = 15.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3t415"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vpqw1"]
 resource_local_to_scene = true
 radius = 15.0
 height = 52.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ngwi8"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_yosg6"]
 resource_local_to_scene = true
 radius = 14.0
 
 [node name="Drone" unique_id=1305847055 instance=ExtResource("1_ol35h")]
 script = ExtResource("2_k5amr")
-sprite_frames = SubResource("SpriteFrames_vpqw1")
+sprite_frames = SubResource("SpriteFrames_k5amr")
 type_name = "drone"
 group = "ants"
 max_health = 50
 max_hunger = 300
 speed = 40
 
-[node name="CollisionShape2D" parent="." index="0" unique_id=283948992]
-shape = SubResource("CircleShape2D_yosg6")
-
 [node name="CollisionShape2D" parent="Sight_Area" parent_id_path=PackedInt32Array(643319598) index="0" unique_id=912604516]
 position = Vector2(0, 11)
-shape = SubResource("CapsuleShape2D_3t415")
+shape = SubResource("CapsuleShape2D_vpqw1")
 
 [node name="CollisionShape2D" parent="CollisionArea" parent_id_path=PackedInt32Array(692836915) index="0" unique_id=1608485846]
-shape = SubResource("CircleShape2D_ngwi8")
+shape = SubResource("CircleShape2D_yosg6")
 
 [node name="Sprite" parent="." index="3" unique_id=1169619754]
 position = Vector2(5.9604645e-08, 5.9604645e-08)
 scale = Vector2(0.47788462, 0.48276094)
-sprite_frames = SubResource("SpriteFrames_vpqw1")
+sprite_frames = SubResource("SpriteFrames_k5amr")
 animation = &"Idle Down"
 autoplay = "Idle Down"
-frame_progress = 0.585308
+frame_progress = 0.16930307
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
-scale = Vector2(0.3769231, 0.38076922)
-sprite_frames = SubResource("SpriteFrames_vpqw1")
-animation = &"Attack Down"
+position = Vector2(5.9604645e-08, 5.9604645e-08)
+scale = Vector2(0.47788462, 0.48276094)
+sprite_frames = SubResource("SpriteFrames_k5amr")
+animation = &"Idle Down"

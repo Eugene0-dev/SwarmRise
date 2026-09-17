@@ -16,7 +16,10 @@ func move_at(pos: Vector2i) -> Dictionary:
 	return {"status": 1}
 
 func _physics_process(delta: float) -> void:
-	is_tick(delta)
+	if  Global.is_tick(delta):
+		lifetime -= 1
+		if lifetime <= 0:
+			on_lifetime_end()
 
 func on_lifetime_end() -> void:
 	if environment:

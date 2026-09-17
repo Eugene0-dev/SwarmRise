@@ -4,18 +4,14 @@
 [ext_resource type="Script" uid="uid://ccp8f4s5qybws" path="res://scripts/entity/queen.gd" id="2_5i371"]
 [ext_resource type="SpriteFrames" uid="uid://jb1estu854ax" path="res://assets/Ants/queen_SpriteFrames.tres" id="2_j5nx7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5i371"]
-resource_local_to_scene = true
-radius = 29.068884
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b016b"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5i371"]
 resource_local_to_scene = true
 radius = 29.0
 height = 114.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dy5gw"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_b016b"]
 resource_local_to_scene = true
-radius = 30.0
+radius = 30.016663
 
 [node name="Queen" unique_id=1305847055 instance=ExtResource("1_fpqs8")]
 collision_layer = 4294967295
@@ -27,24 +23,20 @@ max_health = 1000
 max_hunger = 600
 speed = 30
 
-[node name="CollisionShape2D" parent="." index="0" unique_id=283948992]
-shape = SubResource("CircleShape2D_5i371")
-
 [node name="CollisionShape2D" parent="Sight_Area" parent_id_path=PackedInt32Array(643319598) index="0" unique_id=912604516]
 position = Vector2(0, 28)
-shape = SubResource("CapsuleShape2D_b016b")
+shape = SubResource("CapsuleShape2D_5i371")
 
 [node name="CollisionShape2D" parent="CollisionArea" parent_id_path=PackedInt32Array(692836915) index="0" unique_id=1608485846]
-shape = SubResource("CircleShape2D_dy5gw")
+shape = SubResource("CircleShape2D_b016b")
 
 [node name="Sprite" parent="." index="3" unique_id=1169619754]
 position = Vector2(1, 0)
 sprite_frames = ExtResource("2_j5nx7")
 animation = &"Idle Down"
-frame_progress = 0.96696424
+frame_progress = 0.5802692
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
 position = Vector2(1, 0)
 sprite_frames = ExtResource("2_j5nx7")
 animation = &"Idle Down"
-frame = 1

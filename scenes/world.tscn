@@ -81,10 +81,16 @@ map_height = 2048
 tileset = ExtResource("1_4wyf3")
 metadata/_custom_type_script = "uid://dh7auhwpe0p58"
 
+[node name="Items" type="Node2D" parent="Ground" unique_id=1542807609]
+
 [node name="Water" type="TileMapLayer" parent="Ground" unique_id=49426209]
-z_index = 2
+z_index = 1
 material = ExtResource("7_7t5mc")
 tile_set = ExtResource("4_w7kh3")
+collision_enabled = false
+
+[node name="Entities" type="Node2D" parent="Ground" unique_id=276063652]
+z_index = 1
 
 [node name="Objects" type="TileMapLayer" parent="Ground" unique_id=742766779]
 y_sort_enabled = true

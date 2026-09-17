@@ -15,6 +15,14 @@ var view: Rect2:
 		var half_extents = (screen_size / 2.0) / zoom
 		return Rect2(cam_center - half_extents, half_extents * 2.0)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				zoom -= Vector2(zoom_speed, zoom_speed)
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				zoom += Vector2(zoom_speed, zoom_speed)
+
 func _process(delta: float) -> void:
 	var direction = Input.get_vector("left", "right", "up", "down")
 	

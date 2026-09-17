@@ -15,7 +15,7 @@ enum id {
 	set(val):
 		item_id = val
 		update_sprite_region()
-		
+
 @export var atlas_columns: int
 @onready var sprite: Sprite2D = $Sprite2D
 

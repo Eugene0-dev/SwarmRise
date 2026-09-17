@@ -6,10 +6,10 @@ func _ready() -> void:
 	super()
 	specific_commands.append("breed")
 
-func AI(delta: float) -> void:
+func AI() -> void:
 	if faction == "none":
 		faction = create_faction()
-	super(delta)
+	super()
 
 func create_faction() -> String:
 	var q_name = name.split("_")

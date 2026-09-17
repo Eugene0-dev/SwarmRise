@@ -19,6 +19,18 @@ outline_color = Color(0, 0, 0, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_kbnl5"]
+font_size = 12
+font_color = Color(0.44420654, 0.8291937, 0.91953087, 1)
+outline_size = 3
+outline_color = Color(0.04303915, 0.043039158, 0.04303913, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hyu26"]
+font_size = 12
+font_color = Color(0.3662251, 0.7184308, 0.9093712, 1)
+outline_size = 3
+outline_color = Color(0.066070534, 0.06607054, 0.066070534, 1)
+
 [node name="UI" type="Control" unique_id=2089034143]
 layout_mode = 3
 anchors_preset = 15
@@ -69,3 +81,21 @@ offset_right = 83.0
 offset_bottom = 139.0
 text = "Lifetime"
 label_settings = SubResource("LabelSettings_x4jx1")
+
+[node name="Process_Label" type="Label" parent="." unique_id=2073702011]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 135.0
+offset_right = 114.0
+offset_bottom = 149.0
+text = "process"
+label_settings = SubResource("LabelSettings_kbnl5")
+
+[node name="Subprocess_Label" type="Label" parent="." unique_id=1609293806]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 147.0
+offset_right = 104.0
+offset_bottom = 167.0
+text = "subprocess"
+label_settings = SubResource("LabelSettings_hyu26")

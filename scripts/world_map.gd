@@ -40,7 +40,9 @@ const BUSH_TILES = [
 	Vector2i(108, 111), Vector2i(124, 111)
 ]
 
+@onready var items: Node2D = $Items
 @onready var water_layer: TileMapLayer = $Water
+@onready var entities: Node2D = $Entities
 @onready var objects_layer: TileMapLayer = $Objects
 var progress: float = 0.0
 @export var world_seed: int = 0

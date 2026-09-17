@@ -1,19 +1,15 @@
 [gd_scene format=3 uid="uid://djdsofrm2tm2c"]
 
 [ext_resource type="PackedScene" uid="uid://c7mwnlui8vo04" path="res://scenes/entity.tscn" id="1_cysgi"]
-[ext_resource type="Script" uid="uid://g67u7moycwy0" path="res://scripts/entity/scout.gd" id="2_i0qr2"]
+[ext_resource type="Script" uid="uid://s534bq1jn2i2" path="res://scripts/entity/scout.gd" id="2_i0qr2"]
 [ext_resource type="SpriteFrames" uid="uid://dlt7c24x11luh" path="res://assets/Ants/scout_SpriteFrames.tres" id="3_4o08y"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4o08y"]
-resource_local_to_scene = true
-radius = 19.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mf6sp"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4o08y"]
 resource_local_to_scene = true
 radius = 19.0
 height = 76.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1d5sm"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_mf6sp"]
 resource_local_to_scene = true
 radius = 20.0
 
@@ -26,24 +22,22 @@ max_health = 50
 max_hunger = 400
 speed = 35
 
-[node name="CollisionShape2D" parent="." index="0" unique_id=283948992]
-shape = SubResource("CircleShape2D_4o08y")
-
 [node name="CollisionShape2D" parent="Sight_Area" parent_id_path=PackedInt32Array(643319598) index="0" unique_id=912604516]
 position = Vector2(0, 18)
-shape = SubResource("CapsuleShape2D_mf6sp")
+shape = SubResource("CapsuleShape2D_4o08y")
 
 [node name="CollisionShape2D" parent="CollisionArea" parent_id_path=PackedInt32Array(692836915) index="0" unique_id=1608485846]
-shape = SubResource("CircleShape2D_1d5sm")
+shape = SubResource("CircleShape2D_mf6sp")
 
 [node name="Sprite" parent="." index="3" unique_id=1169619754]
 position = Vector2(1.1920929e-07, -1.1920929e-07)
 scale = Vector2(0.64519227, 0.64519227)
 sprite_frames = ExtResource("3_4o08y")
 animation = &"Idle Down"
-frame_progress = 0.57278365
+frame_progress = 0.36545804
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
-scale = Vector2(0.7057692, 0.7057692)
+position = Vector2(1.1920929e-07, -1.1920929e-07)
+scale = Vector2(0.64519227, 0.64519227)
 sprite_frames = ExtResource("3_4o08y")
 animation = &"Idle Down"

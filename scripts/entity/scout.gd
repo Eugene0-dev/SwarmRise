@@ -8,10 +8,10 @@ func _ready() -> void:
 	super()
 	specific_commands.append("takeoff")
 
-func AI(delta: float) -> void:
+func AI() -> void:
 	if position.distance_to(prefered_pos) > 250 : takeoff()
 	elif position.distance_to(prefered_pos) < 50 and is_onflight: landing()
-	super(delta)
+	super()
 
 func exec_command(type: String, args: Array):
 	match type:

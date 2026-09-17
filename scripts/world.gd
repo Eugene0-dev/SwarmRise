@@ -7,10 +7,14 @@ extends Node2D
 @onready var camera: Camera2D = $MainCam
 
 @export var world_map: WorldMap
+var items: Node2D
+var entities: Node2D
 var sectors: Dictionary
 var nav_grid: AStarGrid2D
 
 func _ready() -> void:
+	items = world_map.items
+	entities = world_map.entities
 	sectors = world_map.sectors
 	clouds.size.x = world_map.map_width_px
 	clouds.size.y = world_map.map_height_px
@@ -18,13 +22,28 @@ func _ready() -> void:
 	Global.place_item.connect(_on_place_item_requested)
 	Global.grow_plant.connect(grow)
 
+func _process(delta: float) -> void:
+	if Global.is_tick(delta):
+		Global.emit_signal("tick")
+
+func save_world():
+	var items_list: Array[Dictionary]
+	var entities_list: Array
+	
+	for item in items.get_children():
+		if item is Item:
+			items_list.append({
+				"item_id": item.item_id,
+				"item_pos": item.position
+			})
+
 func place_item(id: int, pos: Vector2) -> Item:
 	var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
 	var item: Item = item_scene.instantiate()
 	if id < item.id.size():
 		item.item_id = id
 		item.global_position = pos
-		add_child(item)
+		items.add_child(item)
 		return item
 	return null
 
@@ -46,7 +65,7 @@ func create_entity(link: String, pos: Vector2, extra: String = "") -> Entity:
 			subject.name = create_entity_name(subject)
 			subject.position = pos
 			subject.environment = self
-			add_child(subject)
+			entities.add_child(subject)
 			return subject
 	return null
 

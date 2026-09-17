@@ -37,6 +37,20 @@ font_color = Color(0.18039216, 0.68235296, 1, 1)
 outline_size = 10
 outline_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyu26"]
+bg_color = Color(1, 1, 1, 0.40784314)
+border_color = Color(0.18478566, 0.1847857, 0.18478552, 1)
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwkiw"]
+bg_color = Color(1, 1, 1, 0.40784314)
+border_color = Color(0.18431373, 0.18431373, 0.18431373, 1)
+corner_radius_top_left = 20
+corner_radius_bottom_left = 20
+corner_detail = 1
+
 [node name="Main" type="Node2D" unique_id=381476108]
 
 [node name="WorldMap" type="TileMapLayer" parent="." unique_id=1297678688]
@@ -98,31 +112,34 @@ offset_right = 799.0
 offset_bottom = 610.0
 theme = ExtResource("1_o5qli")
 
-[node name="Play" type="Button" parent="CanvasLayer/Main_Menu/Panel" unique_id=1173986608]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Main_Menu/Panel" unique_id=547781021]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 23.0
-offset_right = 432.0
-offset_bottom = 112.0
+offset_left = 21.0
+offset_top = 45.0
+offset_right = 431.0
+offset_bottom = 397.0
+
+[node name="Play" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=1173986608]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
 theme = ExtResource("1_o5qli")
 theme_override_font_sizes/font_size = 40
-text = "Play"
+text = "New Game"
 
-[node name="Useless" type="Button" parent="CanvasLayer/Main_Menu/Panel" unique_id=1479071167]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 121.0
-offset_right = 432.0
-offset_bottom = 222.0
+[node name="Load" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=1479071167]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
 theme = ExtResource("1_o5qli")
-text = "Useless button"
+text = "Load Game"
 
-[node name="Quit" type="Button" parent="CanvasLayer/Main_Menu/Panel" unique_id=1093042630]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 341.0
-offset_right = 433.0
-offset_bottom = 430.0
+[node name="Settings" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=575349889]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=1093042630]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
 theme = ExtResource("1_o5qli")
 theme_override_font_sizes/font_size = 40
 text = "Quit
@@ -185,6 +202,23 @@ text = "Ninja-_-W.W."
 alignment = 1
 editable = false
 
-[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/Play" to="CanvasLayer/Main_Menu" method="_on_play_pressed"]
-[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/Quit" to="CanvasLayer/Main_Menu" method="_on_quit_pressed"]
+[node name="Settings_Panel" type="Panel" parent="CanvasLayer/Main_Menu" unique_id=520387781]
+layout_mode = 0
+offset_left = -330.0
+offset_bottom = 648.0
+theme = ExtResource("1_o5qli")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hyu26")
+
+[node name="Load_Panel" type="Panel" parent="CanvasLayer/Main_Menu" unique_id=1149749929]
+layout_mode = 0
+offset_left = 1152.0
+offset_right = 1482.0
+offset_bottom = 648.0
+theme = ExtResource("1_o5qli")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hwkiw")
+
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Play" to="CanvasLayer/Main_Menu" method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Load" to="CanvasLayer/Main_Menu" method="_on_load_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Settings" to="CanvasLayer/Main_Menu" method="_on_settings_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Quit" to="CanvasLayer/Main_Menu" method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Github_Button" to="CanvasLayer/Main_Menu" method="_on_github_button_pressed"]

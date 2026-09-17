@@ -53,6 +53,7 @@ enum direction {UP, DOWN, LEFT, RIGHT}
 
 func _ready() -> void:
 	_sync_outline()
+	Global.tick.connect(_on_tick)
 	face_dir = direction.DOWN
 	idle()
 	prefered_pos = global_position
@@ -72,17 +73,6 @@ func _input_event(_viewport, event, _shape_idx):
 	and event.pressed:
 		Global.emit_signal("entity_selected", self)
 
-var timer: float = 0.0
-func is_tick(delta: float) -> bool:
-	timer += delta
-	if timer >= 1.0:
-		timer = 0.0
-		lifetime -= 1
-		if lifetime <= 0:
-			on_lifetime_end()
-		return true
-	return false
-
 func _process(delta: float) -> void:
 	outline.visible = is_outline_on
 	if is_outline_on:
@@ -92,32 +82,36 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		idle()
 		return
-	var tick = is_tick(delta)
+		
+	if not current_subtask.is_empty():
+		exec_subtask(current_subtask)
+	elif not subtasks.is_empty():
+		current_subtask = subtasks.pop_front()
+		exec_subtask(current_subtask)
+	elif not current_task.is_empty():
+		exec_task(current_task) 
+	elif not schedule.is_empty():
+		current_task = schedule.pop_front()
+	else: idle()
 	
-	if tick and hunger < max_hunger:
+
+func _on_tick() -> void:
+	lifetime -= 1
+	if lifetime <= 0:
+		on_lifetime_end()
+	if hunger < max_hunger:
 		hunger += 1
 	if income_damage > max_health: 
 		die()
 		return
-	if hunger >= max_hunger and tick: income_damage+=1
-	elif income_damage > 0 and tick: 
+	if hunger >= max_hunger: income_damage+=1
+	elif income_damage > 0: 
 		var heal_rate = clamp(10 - (hunger / 10), 0, 10)
 		income_damage -= heal_rate
-	if tick and is_ai_enabled and environment:
-		AI(delta)
-	
-	if not current_subtask.is_empty():
-		exec_subtask(current_subtask, delta)
-	elif not subtasks.is_empty():
-		current_subtask = subtasks.pop_front()
-		exec_subtask(current_subtask, delta)
-	elif not current_task.is_empty():
-		exec_task(current_task, delta) 
-	elif not schedule.is_empty():
-		current_task = schedule.pop_front()
-	else: idle()
-	if tick:
-		last_position = global_position
+	if is_ai_enabled and environment:
+		AI()
+		
+	last_position = global_position
 
 func add_task(type: String, args: Array) -> void:
 	var task: Dictionary = {"type": type}
@@ -140,10 +134,10 @@ func add_subtask(type: String, args: Array) -> void:
 			subtask["evade"] = args[2]
 	subtasks.append(subtask)
 
-func exec_task(task: Dictionary, delta: float) -> int:
+func exec_task(task: Dictionary) -> int:
 	match task["type"]:
 		"wait":
-			task["time"] -= delta
+			task["time"] -= 1
 			if task["time"] <= 0: 
 				complete_task()
 				return 1
@@ -164,7 +158,7 @@ func exec_task(task: Dictionary, delta: float) -> int:
 				return 1
 	return 1
 
-func exec_subtask(task: Dictionary, delta: float) -> int:
+func exec_subtask(task: Dictionary) -> int:
 	var status: int
 	match task["type"]:
 		"mv":
@@ -178,12 +172,27 @@ func exec_subtask(task: Dictionary, delta: float) -> int:
 	if status == 1: complete_subtask()
 	return status
 
+func compress_path(path: Array[Vector2i]) -> Array[Vector2i]:
+	if path.size() <= 2:
+		return path
+	var compressed_path: Array[Vector2i] = [path[0]]
+	var last_dir = path[1] - path[0]
+	for i in range(1, path.size() - 1):
+		var current_dir = path[i + 1] - path[i]
+		
+		if current_dir != last_dir:
+			compressed_path.append(path[i])
+			last_dir = current_dir
+			
+	compressed_path.append(path[-1])
+	return compressed_path
+
 func find_path(point: Vector2i, end_point: Vector2i) -> Array[Vector2i]:
-	return environment.nav_grid.get_id_path(point, end_point)
+	var path = environment.nav_grid.get_id_path(point, end_point)
+	return compress_path(path)
 
 func on_stuck_handle(obstacle: Area2D) -> void:
 	var evade_point = global_position+Vector2(get_face_dir())*100
-	subtasks.clear()
 	
 	if obstacle:
 		var shape: Rect2 = obstacle.find_child("CollisionShape2D").shape.get_rect()
@@ -201,13 +210,13 @@ func on_stuck_handle(obstacle: Area2D) -> void:
 			direction.RIGHT: evade_point.y -= get_size()
 			
 	current_subtask = {"type": "mv", "pos": evade_point, "evade": true}
-	var dir = evade_point.direction_to(prefered_pos)
-	if abs(dir.y) > abs(dir.x):
-		add_subtask("mv", [prefered_pos.x, evade_point.y, false])
-		add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
-	else:
-		add_subtask("mv", [evade_point.x, prefered_pos.y, false])
-		add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
+	#var dir = evade_point.direction_to(prefered_pos)
+	#if abs(dir.y) > abs(dir.x):
+	#	add_subtask("mv", [prefered_pos.x, evade_point.y, false])
+	#	add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
+	#else:
+	#	add_subtask("mv", [evade_point.x, prefered_pos.y, false])
+	#	add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
 
 func exec_command(type: String, args: Array):
 	match type:	
@@ -292,12 +301,12 @@ func walk(dir: Vector2) -> void:
 
 func move_at(pos: Vector2i) -> Dictionary:
 	var dir = global_position.direction_to(pos)
-	if global_position.distance_to(pos) <= 15:
+	if global_position.distance_to(pos) <= 8:
 		return {"status": 1}
 	var obstacles = sight_area.get_overlapping_areas()
 	if obstacles.size() > 1 and not current_subtask["evade"]: return {"status": -1, "obstacle": obstacles[0]}
 	
-	if global_position.distance_to(last_position) < 1 and velocity != Vector2.ZERO:
+	if global_position.distance_to(last_position) < 0.1 and velocity != Vector2.ZERO:
 		stuck_timer += 1
 		if stuck_timer >= STUCK_THRESHOLD:
 			stuck_timer = 0.0
@@ -327,8 +336,8 @@ func get_size() -> float:
 	var width = rect.end.x
 	var height = rect.end.y
 	if width > height:
-		return width
-	else: return height
+		return width*1.5
+	else: return height*1.5
 
 func on_lifetime_end() -> void:
 	die()
@@ -366,7 +375,7 @@ func wander() -> void:
 		if not environment.nav_grid.is_point_solid(tile):
 			prefered_pos = pos
 
-func AI(delta: float) -> void:
+func AI() -> void:
 	if global_position.distance_to(prefered_pos) > 30 and not is_busy():
 		add_task("mv", [prefered_pos.x, prefered_pos.y, false])
 	wander()
