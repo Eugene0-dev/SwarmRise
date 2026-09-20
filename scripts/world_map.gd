@@ -136,11 +136,18 @@ func map_gen() -> void:
 			else:
 				set_cell(pos, 1, tile_case)
 				
+			if noise_val < -0.1:
+				water_layer.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+				astar_grid.set_point_solid(Vector2i(x, y), true)
+				astar_grid.set_point_weight_scale(Vector2i(x, y), 1000000)
+				if Global.throw_dice(250, 1):
+					Global.emit_signal("grow_plant", {"type": randi_range(5, 19), "pos": pos_px})
+				
 			if noise_val < 0.5 and noise_val > 0 and tile_type == t_types.GRASS:
 				set_bushes(noise_val, obj_noise_val, pos)
 				set_trees(noise_val, obj_noise_val, pos)
 				if Global.throw_dice(250, 1):
-					Global.emit_signal("grow_plant", {"type": Grass.types.values().pick_random(), "pos": pos_px})
+					Global.emit_signal("grow_plant", {"type": randi_range(0, 4), "pos": pos_px})
 			
 			if Global.throw_dice(2000, 1):
 					Global.emit_signal("place_item", {"id": Item.id.ROCK, "pos": pos_px})
@@ -153,10 +160,6 @@ func map_gen() -> void:
 				if Global.throw_dice(250, 1):
 					Global.emit_signal("place_item", {"id": Item.id.CLAY, "pos": pos_px})
 			
-			if noise_val < -0.1:
-				water_layer.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
-				astar_grid.set_point_solid(Vector2i(x, y), true)
-				astar_grid.set_point_weight_scale(Vector2i(x, y), 1000000)
 				
 			progress = x
 			# use bigger value to increase generation speed ( x % 20 )

@@ -41,7 +41,7 @@ func save_world():
 			entities_list.append(DataRaw.extract_entity(entity))
 
 func place_item(id: int, pos: Vector2) -> Item:
-	if world_map.water_layer.get_cell_source_id(get_cell(pos)) != -1:
+	if world_map.astar_grid.is_point_solid(get_cell(pos)):
 		return null
 	var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
 	var item: Item = item_scene.instantiate()
