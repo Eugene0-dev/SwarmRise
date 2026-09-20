@@ -33,6 +33,15 @@ const TREE_TILES = [
 	Vector2i(45, 42), Vector2i(66, 42), Vector2i(90, 39), Vector2i(106, 39)
 ]
 
+var fruit_sources: Dictionary[Item.id, Array] = {
+	Item.id.REDBALL: [],
+	Item.id.LAMPFRUIT: [],
+	Item.id.SUNFRUIT: [],
+	Item.id.PUSHFRUIT: [],
+	Item.id.HELLBERRY: [],
+	Item.id.SUCKBERRY: []
+}
+
 const BUSH_TILES = [
 	Vector2i(3, 84), Vector2i(24, 83), Vector2i(45, 83), Vector2i(66, 83),
 	Vector2i(89, 78), Vector2i(107, 78), Vector2i(124, 78), Vector2i(3, 115),
@@ -192,6 +201,22 @@ func set_trees(val: float, obj_val: float, pos: Vector2i) -> void:
 		
 		if index >= 0 and index < TREE_TILES.size():
 			place_object(pos, 1, TREE_TILES[index], true)
+		
+		var fruit = Item.id.LAMPFRUIT;
+		if index == 6:
+			fruit = Item.id.LAMPFRUIT
+		if index == 7:
+			fruit = Item.id.REDBALL
+		if index == 8:
+			fruit = Item.id.SUNFRUIT
+		if index == 9:
+			fruit = Item.id.PUSHFRUIT
+		if index == 10:
+			fruit = Item.id.HELLBERRY
+		if index == 11:
+			fruit = Item.id.SUCKBERRY
+			
+		fruit_sources[fruit].append(pos)
 
 func set_bushes(val: float, obj_val: float, pos: Vector2i) -> void:
 	var noise_sum = val+obj_val

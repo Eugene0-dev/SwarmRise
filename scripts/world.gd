@@ -26,6 +26,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Global.is_tick(delta):
 		Global.emit_signal("tick")
+		fruit_drop()
+
+func fruit_drop():
+	var fruits = [Item.id.REDBALL, Item.id.LAMPFRUIT, Item.id.SUNFRUIT, Item.id.PUSHFRUIT, Item.id.HELLBERRY, Item.id.SUCKBERRY]
+	var the_fruit = fruits.pick_random()
+	var src = world_map.fruit_sources[the_fruit]
+	var trees = src.pick_random()
+	if trees:
+		place_item(the_fruit, Vector2i(randi_range(-50, 50), randi_range(-50, 50))+trees*8)
 
 func save_world():
 	var world_seed: int = world_map.world_seed

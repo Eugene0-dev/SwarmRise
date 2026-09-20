@@ -1,18 +1,19 @@
 [gd_scene format=3 uid="uid://c4pvat77flt8h"]
 
-[ext_resource type="Texture2D" uid="uid://ctejbu8bbk6it" path="res://assets/items.png" id="1_keydj"]
+[ext_resource type="Texture2D" uid="uid://b7hcr5h5fai7u" path="res://assets/items.png" id="1_keydj"]
 [ext_resource type="Script" uid="uid://bf47pyup54drj" path="res://scripts/objects/item.gd" id="1_t8k3g"]
 [ext_resource type="Material" uid="uid://db1xiyp3dk1yo" path="res://assets/shaders/items_material.tres" id="2_6whfk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbnl5"]
 resource_local_to_scene = true
 atlas = ExtResource("1_keydj")
-region = Rect2(18, 52, 16, 16)
+region = Rect2(18, 18, 16, 16)
 
 [node name="Item" type="Node2D" unique_id=1482468156]
 z_index = 1
 y_sort_enabled = true
 script = ExtResource("1_t8k3g")
+item_id = 5
 atlas_columns = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=432637729]
