@@ -10,12 +10,12 @@
 [ext_resource type="Material" uid="uid://dxf52pji3oaus" path="res://assets/shaders/water_material.tres" id="4_55yel"]
 [ext_resource type="TileSet" uid="uid://cxng54clsdivr" path="res://assets/tilesets/objects_tileset.tres" id="4_ya4ey"]
 [ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="6_26ekd"]
-[ext_resource type="Texture2D" uid="uid://daei4e46wq5pd" path="res://assets/logos/logo_sf.png" id="7_o6xl0"]
-[ext_resource type="FontFile" uid="uid://cmymgt2gqvv4w" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="7_ya4ey"]
-[ext_resource type="FontFile" uid="uid://5tndu0u21u1t" path="res://assets/OpenLukyanov.otf" id="8_6ic3k"]
-[ext_resource type="Texture2D" uid="uid://cggvuv3g4llq1" path="res://assets/logos/github_black.png" id="10_6ic3k"]
-[ext_resource type="Texture2D" uid="uid://jgpuryuf3y00" path="res://assets/logos/github_white.png" id="11_gph5m"]
-[ext_resource type="Texture2D" uid="uid://81gslp2sn251" path="res://assets/logos/Logo-NW.png" id="13_6ic3k"]
+[ext_resource type="Texture2D" uid="uid://cu3oym5qbdcc" path="res://assets/logos/logo_sf.png" id="7_o6xl0"]
+[ext_resource type="FontFile" uid="uid://ly524xhenbkv" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="7_ya4ey"]
+[ext_resource type="FontFile" uid="uid://cnjuh1teetptv" path="res://assets/OpenLukyanov.otf" id="8_6ic3k"]
+[ext_resource type="Texture2D" uid="uid://cybcpm4jmb0ex" path="res://assets/logos/github_black.png" id="10_6ic3k"]
+[ext_resource type="Texture2D" uid="uid://cgymomr4ow2wi" path="res://assets/logos/github_white.png" id="11_gph5m"]
+[ext_resource type="Texture2D" uid="uid://dl76f117e70fn" path="res://assets/logos/Logo-NW.png" id="13_6ic3k"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kbnl5"]
 

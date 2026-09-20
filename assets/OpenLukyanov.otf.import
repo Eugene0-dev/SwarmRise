@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://5tndu0u21u1t"
+uid="uid://cnjuh1teetptv"
 path="res://.godot/imported/OpenLukyanov.otf-f0d600bc408d8ff95245fab63a0963ab.fontdata"
 
 [deps]
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
+hinting=3
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

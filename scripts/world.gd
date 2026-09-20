@@ -21,23 +21,28 @@ func _ready() -> void:
 	
 	Global.place_item.connect(_on_place_item_requested)
 	Global.grow_plant.connect(grow)
+	Global.save_game.connect(save_world)
 
 func _process(delta: float) -> void:
 	if Global.is_tick(delta):
 		Global.emit_signal("tick")
 
 func save_world():
+	var world_seed: int = world_map.world_seed
 	var items_list: Array[Dictionary]
 	var entities_list: Array
 	
 	for item in items.get_children():
 		if item is Item:
-			items_list.append({
-				"item_id": item.item_id,
-				"item_pos": item.position
-			})
+			items_list.append(DataRaw.extract_item(item))
+	
+	for entity in entities.get_children():
+		if entity is Entity:
+			entities_list.append(DataRaw.extract_entity(entity))
 
 func place_item(id: int, pos: Vector2) -> Item:
+	if world_map.water_layer.get_cell_source_id(get_cell(pos)) != -1:
+		return null
 	var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
 	var item: Item = item_scene.instantiate()
 	if id < item.id.size():

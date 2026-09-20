@@ -15,6 +15,8 @@ func is_tick(delta: float) -> bool:
 
 signal tick()
 
+signal save_game()
+
 signal place_item(item_id, pos)
 
 signal grow_plant(type, pos)

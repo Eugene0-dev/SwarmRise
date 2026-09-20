@@ -7,13 +7,12 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbnl5"]
 resource_local_to_scene = true
 atlas = ExtResource("1_keydj")
-region = Rect2(35, 1, 16, 16)
+region = Rect2(18, 52, 16, 16)
 
 [node name="Item" type="Node2D" unique_id=1482468156]
 z_index = 1
 y_sort_enabled = true
 script = ExtResource("1_t8k3g")
-item_id = 2
 atlas_columns = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=432637729]

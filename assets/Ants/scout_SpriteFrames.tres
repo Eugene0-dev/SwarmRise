@@ -1,7 +1,7 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://dlt7c24x11luh"]
 
-[ext_resource type="Texture2D" uid="uid://cbd84m3mrf5qf" path="res://assets/Ants/Ant-Scout.png" id="1_4d846"]
-[ext_resource type="Texture2D" uid="uid://b3xbn2mvrp8fc" path="res://assets/Ants/Ant-Scout2.png" id="2_3aipi"]
+[ext_resource type="Texture2D" uid="uid://3xg5s6qd6hu0" path="res://assets/Ants/Ant-Scout.png" id="1_4d846"]
+[ext_resource type="Texture2D" uid="uid://ctshju12sfeuf" path="res://assets/Ants/Ant-Scout2.png" id="2_3aipi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mf6sp"]
 atlas = ExtResource("1_4d846")

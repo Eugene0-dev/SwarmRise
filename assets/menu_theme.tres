@@ -1,8 +1,8 @@
 [gd_resource type="Theme" format=3 uid="uid://cf7qinaxog0mv"]
 
 [ext_resource type="StyleBox" uid="uid://cc8k42fv284aj" path="res://assets/styles/panel_style_box_flat.tres" id="1_hqjoi"]
-[ext_resource type="FontFile" uid="uid://cmymgt2gqvv4w" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="1_m72v5"]
-[ext_resource type="FontFile" uid="uid://5tndu0u21u1t" path="res://assets/OpenLukyanov.otf" id="1_tf8oi"]
+[ext_resource type="FontFile" uid="uid://ly524xhenbkv" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="1_m72v5"]
+[ext_resource type="FontFile" uid="uid://cnjuh1teetptv" path="res://assets/OpenLukyanov.otf" id="1_tf8oi"]
 [ext_resource type="StyleBox" uid="uid://tlevxanpbdmj" path="res://assets/styles/itemlist_style_box_flat.tres" id="2_vw0k4"]
 [ext_resource type="StyleBox" uid="uid://cdkjtlx4s4eb0" path="res://assets/styles/button_style_box_flat.tres" id="2_x0tqe"]
 [ext_resource type="StyleBox" uid="uid://bay4bt608ap84" path="res://assets/styles/progressbar_style_box_flat.tres" id="3_vw0k4"]
