@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cbyed246iectj"]
+
+[ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="1_80rfg"]
+[ext_resource type="FontFile" uid="uid://ly524xhenbkv" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="2_p1ku7"]
+[ext_resource type="Script" uid="uid://dxvtcyfmvx8ca" path="res://scripts/ui/calendar.gd" id="2_t4pk6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kbnl5"]
+font = ExtResource("2_p1ku7")
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hyu26"]
+font = ExtResource("2_p1ku7")
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Calendar" type="Control" unique_id=1870131491]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_80rfg")
+script = ExtResource("2_t4pk6")
+
+[node name="Time_Label" type="Label" parent="." unique_id=745149553]
+layout_mode = 0
+offset_left = 982.0
+offset_top = 625.0
+offset_right = 1054.0
+offset_bottom = 648.0
+text = "hour: 0"
+label_settings = SubResource("LabelSettings_kbnl5")
+
+[node name="Date_Label" type="Label" parent="." unique_id=164970462]
+layout_mode = 0
+offset_left = 1060.0
+offset_top = 625.0
+offset_right = 1141.0
+offset_bottom = 648.0
+text = "yy/mm/dd"
+label_settings = SubResource("LabelSettings_hyu26")

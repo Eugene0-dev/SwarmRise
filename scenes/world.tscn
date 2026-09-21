@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dvok55ylpfdak" path="res://scenes/ui/control.tscn" id="8_4mrxx"]
 [ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="9_lakw3"]
 [ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="10_jhx03"]
+[ext_resource type="PackedScene" uid="uid://cbyed246iectj" path="res://scenes/ui/calendar.tscn" id="13_pm21f"]
 
 [sub_resource type="GDScript" id="GDScript_e3hyu"]
 script/source = "extends DirectionalLight2D
@@ -23,12 +24,14 @@ script/source = "extends DirectionalLight2D
 var time: float
 
 func _ready() -> void:
+	Global.tick.connect(_on_tick)
 	energy = 0
 	time = 0
 
-func _process(delta: float) -> void:
-	time += delta/100
-	energy = sin(time)
+func _on_tick() -> void:
+	var day_progress: float = (Global.hour * 50.0) / Global.DAY_LENGTH
+	var angle: float = (day_progress * TAU) - (PI / 2.0)
+	energy = sin(angle)
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kbnl5"]
@@ -105,6 +108,9 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1938131592]
+
+[node name="Calendar" parent="CanvasLayer" unique_id=1839198061 instance=ExtResource("13_pm21f")]
+mouse_filter = 2
 
 [node name="UI" parent="CanvasLayer" unique_id=2089034143 instance=ExtResource("4_7r4gi")]
 visible = false

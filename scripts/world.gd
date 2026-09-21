@@ -19,14 +19,13 @@ func _ready() -> void:
 	clouds.size.x = world_map.map_width_px
 	clouds.size.y = world_map.map_height_px
 	
+	Global.tick.connect(_on_tick)
 	Global.place_item.connect(_on_place_item_requested)
 	Global.grow_plant.connect(grow)
 	Global.save_game.connect(save_world)
 
-func _process(delta: float) -> void:
-	if Global.is_tick(delta):
-		Global.emit_signal("tick")
-		fruit_drop()
+func _on_tick() -> void:
+	fruit_drop()
 
 func fruit_drop():
 	var fruits = [Item.id.REDBALL, Item.id.LAMPFRUIT, Item.id.SUNFRUIT, Item.id.PUSHFRUIT, Item.id.HELLBERRY, Item.id.SUCKBERRY]
