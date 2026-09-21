@@ -14,8 +14,10 @@ config/name="Insects"
 run/main_scene="uid://cvwq7r2cduraj"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
-boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://ds2h8efuv484h"
+boot_splash/bg_color=Color(0.078431375, 0.078431375, 0.078431375, 1)
+boot_splash/stretch_mode=0
+boot_splash/use_filter=false
+boot_splash/image="uid://02i1aa6uvshb"
 config/icon="res://icon.svg"
 
 [autoload]
