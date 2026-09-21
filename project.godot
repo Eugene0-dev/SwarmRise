@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 
 Global="*uid://bogvr64remysl"
 DataRaw="*uid://chv7dq20s5cmx"
+Settings="*uid://dggyslh4kg7vj"
 
 [display]
 

@@ -79,6 +79,7 @@ LineEdit/font_sizes/font_size = 22
 LineEdit/fonts/font = ExtResource("1_m72v5")
 LineEdit/styles/normal = ExtResource("6_estnf")
 LineEdit/styles/read_only = ExtResource("6_estnf")
+OptionButton/fonts/font = ExtResource("1_m72v5")
 Panel/styles/panel = ExtResource("1_hqjoi")
 ProgressBar/colors/font_color = Color(0.3372549, 0.52156866, 0.9490196, 1)
 ProgressBar/constants/outline_size = 4

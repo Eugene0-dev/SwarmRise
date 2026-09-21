@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cybcpm4jmb0ex" path="res://assets/logos/github_black.png" id="10_6ic3k"]
 [ext_resource type="Texture2D" uid="uid://cgymomr4ow2wi" path="res://assets/logos/github_white.png" id="11_gph5m"]
 [ext_resource type="Texture2D" uid="uid://dl76f117e70fn" path="res://assets/logos/Logo-NW.png" id="13_6ic3k"]
+[ext_resource type="Script" uid="uid://cdod6hvkggt7i" path="res://scripts/ui/settings_panel.gd" id="17_55yel"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kbnl5"]
 
@@ -44,6 +45,13 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_detail = 1
 
+[sub_resource type="LabelSettings" id="LabelSettings_kbnl5"]
+font = ExtResource("7_ya4ey")
+font_size = 24
+font_color = Color(0.023529412, 0.58431375, 1, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwkiw"]
 bg_color = Color(1, 1, 1, 0.40784314)
 border_color = Color(0.18431373, 0.18431373, 0.18431373, 1)
@@ -60,6 +68,7 @@ script = ExtResource("1_choun")
 noise = SubResource("FastNoiseLite_kbnl5")
 objective_noise = SubResource("FastNoiseLite_hyu26")
 ground_material_noise = SubResource("FastNoiseLite_dss4m")
+custom_size = true
 map_width = 160
 map_height = 96
 tileset = ExtResource("1_sugp2")
@@ -208,6 +217,26 @@ offset_left = -330.0
 offset_bottom = 648.0
 theme = ExtResource("1_o5qli")
 theme_override_styles/panel = SubResource("StyleBoxFlat_hyu26")
+script = ExtResource("17_55yel")
+
+[node name="Settings_Horizontal" type="VBoxContainer" parent="CanvasLayer/Main_Menu/Settings_Panel" unique_id=1828418183]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 34.0
+offset_right = 92.0
+offset_bottom = 74.0
+
+[node name="World_Size" type="HBoxContainer" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal" unique_id=1895917410]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size" unique_id=1845511665]
+layout_mode = 2
+text = "world size"
+label_settings = SubResource("LabelSettings_kbnl5")
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size" unique_id=1931050959]
+layout_mode = 2
+alignment = 1
 
 [node name="Load_Panel" type="Panel" parent="CanvasLayer/Main_Menu" unique_id=1149749929]
 layout_mode = 0
@@ -222,3 +251,4 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hwkiw")
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Settings" to="CanvasLayer/Main_Menu" method="_on_settings_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Quit" to="CanvasLayer/Main_Menu" method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Github_Button" to="CanvasLayer/Main_Menu" method="_on_github_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size/OptionButton" to="CanvasLayer/Main_Menu/Settings_Panel" method="_on_option_button_item_selected"]

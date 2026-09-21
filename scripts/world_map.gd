@@ -6,6 +6,14 @@ extends TileMapLayer
 @export var objective_noise: FastNoiseLite
 @export var ground_material_noise: FastNoiseLite
 
+var map_sizes: Dictionary[Settings.size, int] = {
+	Settings.size.DEBUG: 512,
+	Settings.size.SMALL: 1024,
+	Settings.size.NORMAL: 2048,
+	Settings.size.EXTENDED: 4096
+}
+
+@export var custom_size: bool = false
 @export var map_width: int
 @export var map_height: int
 @export var tileset: TileSet
@@ -64,6 +72,10 @@ var astar_grid: AStarGrid2D
 signal generation_complete()
 
 func _ready() -> void:
+	if not custom_size:
+		map_width = map_sizes[Settings.world_size]
+		map_height = map_sizes[Settings.world_size]
+	
 	map_width_px = map_width*tileset.tile_size.x
 	map_height_px = map_height*tileset.tile_size.y
 	world_seed = randi_range(1, 100)
