@@ -31,6 +31,8 @@ var hunger: int = 0
 @onready var sight_area: Area2D = $Sight_Area
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
+@onready var hold_item: Node2D = $Sight_Area/Hold_Item_Slot
+
 @export_group("Variables")
 @export var is_outline_on: bool = false
 var is_ai_enabled: bool = true
@@ -45,7 +47,7 @@ var last_position: Vector2
 
 var environment: World
 var specific_commands: Array = [
-	"step", "mv", "mv_s", "pos", "feed", "expire", "lifetime", "kill", "play", "stop", "stopall", "st", "team", "ai"
+	"step", "mv", "mv_s", "pos", "give", "drop", "eat", "feed", "expire", "lifetime", "kill", "play", "stop", "stopall", "st", "team", "ai"
 ]
 var prefered_pos: Vector2
 enum direction {UP, DOWN, LEFT, RIGHT}
@@ -224,6 +226,17 @@ func exec_command(type: String, args: Array):
 			lifetime = 0
 		"lifetime":
 			lifetime = int(args[0])
+		"give":
+			if args.is_empty(): return
+			var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
+			var item: Item = item_scene.instantiate()
+		
+			item.item_id = int(args[0])
+			hold_item.add_child(item)
+		"drop":
+			drop_item()
+		"eat":
+			eat()
 		"feed":
 			hunger = 0
 		"pos":
@@ -299,6 +312,33 @@ func walk(dir: Vector2) -> void:
 	velocity = dir*speed
 	move_and_slide()
 
+func is_item_held() -> bool:
+	return not hold_item.get_children().is_empty()
+
+func get_item_held() -> Item:
+	if not is_item_held(): return null
+	return hold_item.get_children()[0]
+
+func take_item(item: Item) -> void:
+	var dist = global_position.distance_to(item.global_position)
+	if dist > 50: return
+	if is_item_held(): return
+	
+	environment.items.remove_child(item)
+	hold_item.add_child(item)
+	item.position = Vector2.ZERO
+
+func drop_item() -> void:
+	if not is_item_held():
+		return
+	
+	var item: Item = get_item_held()
+	var drop_pos: Vector2 = item.global_position
+	
+	hold_item.remove_child(item)
+	environment.items.add_child(item)
+	item.global_position = drop_pos
+
 func move_at(pos: Vector2i) -> Dictionary:
 	var dir = global_position.direction_to(pos)
 	if global_position.distance_to(pos) <= 8:
@@ -320,8 +360,16 @@ func move_at(pos: Vector2i) -> Dictionary:
 func move_to(target: Node2D) -> bool:
 	return false
 
-func eat(target: Node2D) -> void:
-	pass
+func eat() -> void:
+	var food: Item = get_item_held()
+	if not food: return
+	if not Food.is_edible(food.item_id): return
+	
+	hunger -= Food.get_value(food.item_id)
+	if hunger < 0: hunger = 0
+	
+	hold_item.remove_child(food)
+	food.queue_free()
 
 func get_face_dir() -> Vector2i:
 	match face_dir:

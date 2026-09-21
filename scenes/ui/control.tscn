@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dvok55ylpfdak"]
 
 [ext_resource type="Script" uid="uid://dbna8rqcrlt4y" path="res://scripts/ui/control.gd" id="1_5p55f"]
-[ext_resource type="FontFile" uid="uid://cmymgt2gqvv4w" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="2_brbbq"]
+[ext_resource type="FontFile" uid="uid://ly524xhenbkv" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="2_brbbq"]
 [ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="2_r67kn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_r67kn"]
@@ -85,9 +85,9 @@ placeholder_text = "command line"
 layout_mode = 0
 offset_left = 1033.0
 offset_right = 1152.0
-offset_bottom = 40.0
+offset_bottom = 513.0
 theme = ExtResource("2_r67kn")
 auto_width = true
-auto_height = true
+same_column_width = true
 
 [connection signal="item_clicked" from="Command_Hints_ItemList" to="." method="_on_command_hints_item_list_item_clicked"]

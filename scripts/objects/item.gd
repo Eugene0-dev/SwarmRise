@@ -11,7 +11,7 @@ enum id {
 	ROCK, GRAVEL, MANDIBLE, PRIME_MANDIBLE
 }
 
-@export var item_id: id = id.LOG:
+@export var item_id: id = -1:
 	set(val):
 		item_id = val
 		update_sprite_region()
@@ -23,6 +23,8 @@ func _ready() -> void:
 	update_sprite_region()
 
 func update_sprite_region() -> void:
+	if item_id == -1: visible = false
+	else: visible = true
 	if not sprite: return
 	
 	var atlas = sprite.texture as AtlasTexture

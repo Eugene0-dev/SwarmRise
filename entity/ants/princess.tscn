@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c7mwnlui8vo04" path="res://scenes/entity.tscn" id="1_4x55u"]
 [ext_resource type="Script" uid="uid://bf4hkqcvcbu6h" path="res://scripts/entity/princess.gd" id="2_14syf"]
-[ext_resource type="Texture2D" uid="uid://babkyo4erg5ac" path="res://assets/Ants/Ant-Princess.png" id="3_14syf"]
+[ext_resource type="Texture2D" uid="uid://dtw0xc082q04" path="res://assets/Ants/Ant-Princess.png" id="3_14syf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yxnha"]
 atlas = ExtResource("3_14syf")
@@ -324,7 +324,7 @@ region = Rect2(130, 455, 65, 65)
 atlas = ExtResource("3_14syf")
 region = Rect2(195, 455, 65, 65)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_8qkqd"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_14syf"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -668,18 +668,18 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yxnha"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qkqd"]
 resource_local_to_scene = true
 radius = 24.0
 height = 96.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_agf67"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_yxnha"]
 resource_local_to_scene = true
 radius = 25.079872
 
 [node name="Princess" unique_id=1305847055 instance=ExtResource("1_4x55u")]
 script = ExtResource("2_14syf")
-sprite_frames = SubResource("SpriteFrames_8qkqd")
+sprite_frames = SubResource("SpriteFrames_14syf")
 type_name = "princess"
 group = "ants"
 max_health = 750
@@ -688,19 +688,22 @@ speed = 30
 
 [node name="CollisionShape2D" parent="Sight_Area" parent_id_path=PackedInt32Array(643319598) index="0" unique_id=912604516]
 position = Vector2(0, 24)
-shape = SubResource("CapsuleShape2D_yxnha")
+shape = SubResource("CapsuleShape2D_8qkqd")
 
 [node name="CollisionShape2D" parent="CollisionArea" parent_id_path=PackedInt32Array(692836915) index="0" unique_id=1608485846]
-shape = SubResource("CircleShape2D_agf67")
+shape = SubResource("CircleShape2D_yxnha")
 
 [node name="Sprite" parent="." index="3" unique_id=1169619754]
 scale = Vector2(0.8384615, 0.8384615)
-sprite_frames = SubResource("SpriteFrames_8qkqd")
+sprite_frames = SubResource("SpriteFrames_14syf")
 animation = &"Idle Down"
 autoplay = "Idle Down"
-frame_progress = 0.3507117
+frame_progress = 0.6259232
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
 scale = Vector2(0.8384615, 0.8384615)
-sprite_frames = SubResource("SpriteFrames_8qkqd")
+sprite_frames = SubResource("SpriteFrames_14syf")
 animation = &"Idle Down"
+
+[node name="Hold_Item_Slot" parent="." index="5" unique_id=813757799]
+position = Vector2(0, 23)

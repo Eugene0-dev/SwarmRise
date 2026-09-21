@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c7mwnlui8vo04" path="res://scenes/entity.tscn" id="1_ol35h"]
 [ext_resource type="Script" uid="uid://sr2goqa14rih" path="res://scripts/entity/drone.gd" id="2_k5amr"]
-[ext_resource type="Texture2D" uid="uid://c5nvrsw3r8pud" path="res://assets/Ants/Ant-Drone.png" id="3_k5amr"]
+[ext_resource type="Texture2D" uid="uid://c7bf5n01msg3o" path="res://assets/Ants/Ant-Drone.png" id="3_k5amr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gni2j"]
 atlas = ExtResource("3_k5amr")
@@ -699,10 +699,13 @@ scale = Vector2(0.47788462, 0.48276094)
 sprite_frames = SubResource("SpriteFrames_k5amr")
 animation = &"Idle Down"
 autoplay = "Idle Down"
-frame_progress = 0.16930307
+frame_progress = 0.9508011
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
 position = Vector2(5.9604645e-08, 5.9604645e-08)
 scale = Vector2(0.47788462, 0.48276094)
 sprite_frames = SubResource("SpriteFrames_k5amr")
 animation = &"Idle Down"
+
+[node name="Hold_Item_Slot" parent="." index="5" unique_id=813757799]
+position = Vector2(0, 13)

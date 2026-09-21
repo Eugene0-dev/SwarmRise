@@ -34,9 +34,12 @@ shape = SubResource("CircleShape2D_b016b")
 position = Vector2(1, 0)
 sprite_frames = ExtResource("2_j5nx7")
 animation = &"Idle Down"
-frame_progress = 0.5802692
+frame_progress = 0.7091255
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
 position = Vector2(1, 0)
 sprite_frames = ExtResource("2_j5nx7")
 animation = &"Idle Down"
+
+[node name="Hold_Item_Slot" parent="." index="5" unique_id=813757799]
+position = Vector2(1, 27)

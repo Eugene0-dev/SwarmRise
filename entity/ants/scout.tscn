@@ -34,10 +34,13 @@ position = Vector2(1.1920929e-07, -1.1920929e-07)
 scale = Vector2(0.64519227, 0.64519227)
 sprite_frames = ExtResource("3_4o08y")
 animation = &"Idle Down"
-frame_progress = 0.36545804
+frame_progress = 0.26520354
 
 [node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
 position = Vector2(1.1920929e-07, -1.1920929e-07)
 scale = Vector2(0.64519227, 0.64519227)
 sprite_frames = ExtResource("3_4o08y")
 animation = &"Idle Down"
+
+[node name="Hold_Item_Slot" parent="." index="5" unique_id=813757799]
+position = Vector2(0, 17)
