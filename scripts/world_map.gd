@@ -189,8 +189,9 @@ func map_gen() -> void:
 				await get_tree().process_frame
 			elif not is_inside_tree(): return
 	
-	var post_process = connect_cells.bind(cell_batches)
-	threads.append(WorkerThreadPool.add_task(post_process, false))
+	if Settings.retile == Settings.retile_mode.RUNTIME:
+		var post_process = connect_cells.bind(cell_batches)
+		threads.append(WorkerThreadPool.add_task(post_process, false))
 	progress = map_width
 	emit_signal("generation_complete")
 

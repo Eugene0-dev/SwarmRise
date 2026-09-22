@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cgymomr4ow2wi" path="res://assets/logos/github_white.png" id="11_gph5m"]
 [ext_resource type="Texture2D" uid="uid://dl76f117e70fn" path="res://assets/logos/Logo-NW.png" id="13_6ic3k"]
 [ext_resource type="Script" uid="uid://cdod6hvkggt7i" path="res://scripts/ui/settings_panel.gd" id="17_55yel"]
+[ext_resource type="LabelSettings" uid="uid://dywbh20a23wl8" path="res://assets/styles/label_settings.tres" id="18_26ekd"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kbnl5"]
 
@@ -44,13 +45,6 @@ border_color = Color(0.18478566, 0.1847857, 0.18478552, 1)
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_detail = 1
-
-[sub_resource type="LabelSettings" id="LabelSettings_kbnl5"]
-font = ExtResource("7_ya4ey")
-font_size = 24
-font_color = Color(0.023529412, 0.58431375, 1, 1)
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwkiw"]
 bg_color = Color(1, 1, 1, 0.40784314)
@@ -232,9 +226,21 @@ layout_mode = 2
 [node name="Label" type="Label" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size" unique_id=1845511665]
 layout_mode = 2
 text = "world size"
-label_settings = SubResource("LabelSettings_kbnl5")
+label_settings = ExtResource("18_26ekd")
 
 [node name="OptionButton" type="OptionButton" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size" unique_id=1931050959]
+layout_mode = 2
+alignment = 1
+
+[node name="Retile_Mode" type="HBoxContainer" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal" unique_id=1288536085]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/Retile_Mode" unique_id=1349120557]
+layout_mode = 2
+text = "retile mode"
+label_settings = ExtResource("18_26ekd")
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/Retile_Mode" unique_id=342682206]
 layout_mode = 2
 alignment = 1
 
@@ -251,4 +257,5 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hwkiw")
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Settings" to="CanvasLayer/Main_Menu" method="_on_settings_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Quit" to="CanvasLayer/Main_Menu" method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main_Menu/Github_Button" to="CanvasLayer/Main_Menu" method="_on_github_button_pressed"]
-[connection signal="item_selected" from="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size/OptionButton" to="CanvasLayer/Main_Menu/Settings_Panel" method="_on_option_button_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size/OptionButton" to="CanvasLayer/Main_Menu/Settings_Panel" method="_on_world_size_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/Retile_Mode/OptionButton" to="CanvasLayer/Main_Menu/Settings_Panel" method="_on_retile_mode_item_selected"]

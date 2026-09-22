@@ -95,7 +95,6 @@ func _physics_process(delta: float) -> void:
 	elif not schedule.is_empty():
 		current_task = schedule.pop_front()
 	else: idle()
-	
 
 func _on_tick() -> void:
 	lifetime -= 1
