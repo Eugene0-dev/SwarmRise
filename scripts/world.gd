@@ -13,6 +13,7 @@ var sectors: Dictionary
 var nav_grid: AStarGrid2D
 
 var item_registry: Dictionary[Vector2i, Array] = {}
+var entity_registy: Dictionary[Vector2i, Array] = {}
 
 func _ready() -> void:
 	items = world_map.items
@@ -86,6 +87,14 @@ func grow(args: Dictionary) -> Grass:
 	add_child(grass)
 	return grass
 
+func reg_entity(entity: Entity) -> void:
+	var sector = entity.current_sector
+	entity_registy.get_or_add(sector, []).append(entity)
+
+func replace_entity(entity: Entity) -> void:
+	entity_registy.get(entity.old_sector).erase(entity)
+	reg_entity(entity)
+
 func create_entity(link: String, pos: Vector2, extra: String = "") -> Entity:
 	var scene: PackedScene = load("res://entity/%s.tscn" % link)
 	if scene:
@@ -97,6 +106,7 @@ func create_entity(link: String, pos: Vector2, extra: String = "") -> Entity:
 			subject.position = pos
 			subject.environment = self
 			entities.add_child(subject)
+			reg_entity(subject)
 			return subject
 	return null
 

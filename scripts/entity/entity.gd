@@ -56,6 +56,9 @@ var prefered_pos: Vector2
 enum direction {UP, DOWN, LEFT, RIGHT}
 @export var face_dir: direction = direction.DOWN
 
+var current_sector: Vector2i
+var old_sector: Vector2i
+
 func _ready() -> void:
 	_sync_outline()
 	Global.tick.connect(_on_tick)
@@ -64,6 +67,7 @@ func _ready() -> void:
 	prefered_pos = global_position
 	if environment:
 		create_tween().tween_property(self, "scale", Vector2(1.0, 1.0), 1.0).set_trans(Tween.TRANS_SINE)
+		current_sector = environment.get_sector_key(global_position)
 
 func _sync_outline() -> void:
 	outline.sprite_frames = sprite.sprite_frames
@@ -255,7 +259,7 @@ func exec_command(type: String, args: Array):
 				prefered_pos = Vector2(x, y)
 				return "pref pos: %d %d" % [x, y]
 		"sector":
-			var sec = environment.get_sector_key(global_position)
+			var sec = current_sector
 			return "sec: %d %d" % [sec.x, sec.y]
 		"team":
 			return "faction: %s" % faction
@@ -317,7 +321,17 @@ func walk(dir: Vector2) -> void:
 		face_dir = direction.DOWN if dir.y > 0 else direction.UP
 	sight_area.rotation = Vector2.DOWN.angle_to(Vector2(get_face_dir()))
 	velocity = dir*speed
+	
+	if not environment.get_sector_rect(current_sector).has_point(global_position):
+		update_sector()
+	
 	move_and_slide()
+
+func update_sector() -> void:
+	old_sector = current_sector
+	current_sector = environment.get_sector_key(global_position)
+	environment.replace_entity(self)
+	inspect_sector()
 
 func is_item_held() -> bool:
 	return not hold_item.get_children().is_empty()
