@@ -35,6 +35,9 @@ var hunger: int = 0
 
 @export_group("Variables")
 @export var is_outline_on: bool = false
+
+var knowledges: Dictionary = {}
+
 var is_ai_enabled: bool = true
 var schedule: Array = []
 var current_task: Dictionary = {}
@@ -113,6 +116,11 @@ func _on_tick() -> void:
 		AI()
 		
 	last_position = global_position
+
+func inspect_sector() -> void:
+	var sector = environment.get_sector_key(global_position)
+	var state = environment.collect_sector_states(sector)
+	knowledges[sector] = state
 
 func add_task(type: String, args: Array) -> void:
 	var task: Dictionary = {"type": type}
@@ -323,7 +331,7 @@ func take_item(item: Item) -> void:
 	if dist > 50: return
 	if is_item_held(): return
 	
-	environment.items.remove_child(item)
+	environment.displace_item(item)
 	hold_item.add_child(item)
 	item.position = Vector2.ZERO
 
@@ -336,6 +344,7 @@ func drop_item() -> void:
 	
 	hold_item.remove_child(item)
 	environment.items.add_child(item)
+	environment.reg_item(item)
 	item.global_position = drop_pos
 
 func move_at(pos: Vector2i) -> Dictionary:

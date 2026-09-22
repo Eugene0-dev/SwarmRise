@@ -12,6 +12,8 @@ var entities: Node2D
 var sectors: Dictionary
 var nav_grid: AStarGrid2D
 
+var item_registry: Dictionary[Vector2i, Array] = {}
+
 func _ready() -> void:
 	items = world_map.items
 	entities = world_map.entities
@@ -48,7 +50,16 @@ func save_world():
 		if entity is Entity:
 			entities_list.append(DataRaw.extract_entity(entity))
 
-func place_item(id: int, pos: Vector2) -> Item:
+func reg_item(item: Item) -> void:
+	var sector = get_sector_key(item.global_position)
+	item_registry.get_or_add(sector, []).append(item)
+
+func unreg_item(item: Item) -> void:
+	var sector = get_sector_key(item.global_position)
+	if item in item_registry[sector]:
+		item_registry[sector].erase(item)
+
+func place_item(id: Item.id, pos: Vector2) -> Item:
 	if world_map.astar_grid.is_point_solid(get_cell(pos)):
 		return null
 	var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
@@ -57,8 +68,15 @@ func place_item(id: int, pos: Vector2) -> Item:
 		item.item_id = id
 		item.global_position = pos
 		items.add_child(item)
+		reg_item(item)
 		return item
 	return null
+
+func displace_item(item: Item) -> Item.id:
+	if not item in world_map.items.get_children(): return -1
+	items.remove_child(item)
+	unreg_item(item)
+	return item.item_id
 
 func grow(args: Dictionary) -> Grass:
 	var scene: PackedScene = load("res://scenes/objects/grass.tscn")
@@ -110,6 +128,12 @@ func get_sector_key(pos: Vector2i) -> Vector2i:
 
 func get_sector_rect(key: Vector2i) -> Rect2i:
 	return sectors[key]
+
+func collect_sector_states(sector: Vector2i) -> Dictionary:
+	return {
+		"time": Global.current_tick,
+		"items": item_registry.get(sector)
+	}
 
 func get_dir_to_sector(from: Vector2, key: Vector2i) -> Vector2i:
 	var sector_center = sectors[key].get_center()
