@@ -448,4 +448,5 @@ func wander() -> void:
 func AI() -> void:
 	if global_position.distance_to(prefered_pos) > 30 and not is_busy():
 		add_task("mv", [prefered_pos.x, prefered_pos.y, false])
+	var items =knowledges[current_sector]["items"]
 	wander()
