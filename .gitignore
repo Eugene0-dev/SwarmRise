@@ -12,7 +12,7 @@ export_presets.cfg
 *.gd.uid
 *.uid
 *.import
-*project.godot
+project.godot
 
 # Imported translations (automatically generated from CSV files)
 *.translation
