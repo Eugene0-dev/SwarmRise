@@ -3,21 +3,39 @@
 [ext_resource type="Texture2D" uid="uid://y8a1vl28xgts" path="res://assets/items.png" id="1_keydj"]
 [ext_resource type="Script" uid="uid://cdhpl4h6jh6vy" path="res://scripts/objects/item.gd" id="1_t8k3g"]
 [ext_resource type="Material" uid="uid://db1xiyp3dk1yo" path="res://assets/shaders/items_material.tres" id="2_6whfk"]
+[ext_resource type="FontFile" uid="uid://02plmeikiu1x" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="4_2mmu4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbnl5"]
 resource_local_to_scene = true
 atlas = ExtResource("1_keydj")
 region = Rect2(1, 1, 16, 16)
 
+[sub_resource type="LabelSettings" id="LabelSettings_kbnl5"]
+font = ExtResource("4_2mmu4")
+font_size = 8
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Item" type="Node2D" unique_id=1482468156]
 z_index = 1
 y_sort_enabled = true
 script = ExtResource("1_t8k3g")
 item_id = 0
-atlas_columns = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=432637729]
 y_sort_enabled = true
 texture_filter = 1
 material = ExtResource("2_6whfk")
 texture = SubResource("AtlasTexture_kbnl5")
+
+[node name="Counter_Label" type="Label" parent="." unique_id=534598938]
+visible = false
+z_index = 1
+texture_filter = 1
+offset_left = -5.0
+offset_top = 1.0
+offset_right = 8.0
+offset_bottom = 11.0
+text = "1"
+label_settings = SubResource("LabelSettings_kbnl5")
+horizontal_alignment = 2

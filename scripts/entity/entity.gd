@@ -243,6 +243,7 @@ func exec_command(type: String, args: Array):
 			var item: Item = item_scene.instantiate()
 		
 			item.item_id = int(args[0])
+			if args[1]: item.amount = int(args[1])
 			hold_item.add_child(item)
 		"drop":
 			drop_item()

@@ -19,9 +19,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*uid://btf8ivm1sqqnk"
-Settings="*uid://ci8lmeupnqlko"
-DataRaw="*uid://huiysmbguj3b"
+Global="*uid://dc0fmxix3ljir"
+Settings="*uid://crkbg0853dlit"
+DataRaw="*uid://ci04006q41ctq"
 
 [display]
 

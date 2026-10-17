@@ -16,16 +16,26 @@ enum id {
 		item_id = val
 		update_sprite_region()
 
-@export var atlas_columns: int
+@export var amount: int = 1:
+	set(val):
+		amount = val
+		update_sprite_region()
+
+var atlas_columns: int = 4
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var stack_label: Label = $Counter_Label
 
 func _ready() -> void:
 	update_sprite_region()
 
 func update_sprite_region() -> void:
+	if not is_node_ready(): return
 	if item_id == -1: visible = false
 	else: visible = true
+	if amount <= 1: stack_label.visible = false
+	else: stack_label.visible = true
 	if not sprite: return
+	stack_label.text = "%d" % amount
 	
 	var atlas = sprite.texture as AtlasTexture
 	var pos: Vector2i = Vector2i.ZERO

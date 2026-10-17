@@ -63,7 +63,9 @@ func command(cmd_line: String):
 		"clear":
 			info.text = ""
 		"item":
-			world.place_item(int(cmd[1]), camera.global_position)
+			var amount: int = 1
+			if cmd[2]: amount = int(cmd[2])
+			world.place_item(int(cmd[1]), camera.global_position, amount)
 		"cam":
 			if len(cmd)>2:
 				var sec = world.sectors.get(Vector2i(int(cmd[1]), int(cmd[2])))

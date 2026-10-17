@@ -60,13 +60,14 @@ func unreg_item(item: Item) -> void:
 	if item in item_registry[sector]:
 		item_registry[sector].erase(item)
 
-func place_item(id: Item.id, pos: Vector2) -> Item:
+func place_item(id: Item.id, pos: Vector2, amount: int = 1) -> Item:
 	if world_map.astar_grid.is_point_solid(get_cell(pos)):
 		return null
 	var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
 	var item: Item = item_scene.instantiate()
 	if id < item.id.size():
 		item.item_id = id
+		item.amount = amount
 		item.global_position = pos
 		items.add_child(item)
 		reg_item(item)
