@@ -64,7 +64,7 @@ func command(cmd_line: String):
 			info.text = ""
 		"item":
 			var amount: int = 1
-			if cmd[2]: amount = int(cmd[2])
+			if len(cmd) > 2: amount = int(cmd[2])
 			world.place_item(int(cmd[1]), camera.global_position, amount)
 		"cam":
 			if len(cmd)>2:

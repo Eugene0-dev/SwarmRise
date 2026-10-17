@@ -243,7 +243,7 @@ func exec_command(type: String, args: Array):
 			var item: Item = item_scene.instantiate()
 		
 			item.item_id = int(args[0])
-			if args[1]: item.amount = int(args[1])
+			if len(args) > 1: item.amount = int(args[1])
 			hold_item.add_child(item)
 		"drop":
 			drop_item()
@@ -346,9 +346,18 @@ func take_item(item: Item) -> void:
 	if dist > 50: return
 	if is_item_held(): return
 	
-	environment.displace_item(item)
-	hold_item.add_child(item)
-	item.position = Vector2.ZERO
+	if item.amount < 10:
+		environment.displace_item(item)
+		hold_item.add_child(item)
+		item.position = Vector2.ZERO
+	else:
+		item.amount -= 10
+		var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
+		var item_clone: Item = item_scene.instantiate()
+		item_clone.item_id = item.item_id
+		item_clone.amount = 10
+		item.position = Vector2.ZERO
+		hold_item.add_child(item_clone)
 
 func drop_item() -> void:
 	if not is_item_held():
@@ -391,8 +400,11 @@ func eat() -> void:
 	hunger -= Food.get_value(food.item_id)
 	if hunger < 0: hunger = 0
 	
-	hold_item.remove_child(food)
-	food.queue_free()
+	if food.amount > 1:
+		food.amount -= 1
+	else:
+		hold_item.remove_child(food)
+		food.queue_free()
 
 func get_face_dir() -> Vector2i:
 	match face_dir:
