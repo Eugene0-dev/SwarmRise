@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dvtuosri5agdb"]
+
+[ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="1_uf87w"]
+[ext_resource type="Texture2D" uid="uid://e4sysx7v2aah" path="res://assets/tilesets/DIY/tileset_plants_upscale4x.png" id="2_0e3eg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yu6v"]
+atlas = ExtResource("2_0e3eg")
+region = Rect2(21.474243, 666.305, 155.4054, 118.404175)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kbnl5"]
+radius = 28.01785
+
+[node name="Bush" type="Node2D" unique_id=224914542]
+z_index = 1
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=80333506]
+y_sort_enabled = true
+material = ExtResource("1_uf87w")
+texture = SubResource("AtlasTexture_7yu6v")
+centered = false
+offset = Vector2(-80, -100)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1256564082]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1297596098]
+position = Vector2(-1, -23)
+shape = SubResource("CircleShape2D_kbnl5")

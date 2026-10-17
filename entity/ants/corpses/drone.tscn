@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://hkipyfykcndb"]
+
+[ext_resource type="PackedScene" uid="uid://bnp5q1kn0n4yj" path="res://scenes/objects/corpse.tscn" id="1_b5srt"]
+[ext_resource type="SpriteFrames" uid="uid://dyh6ei24qatf8" path="res://entity/ants/corpses/drone.tres" id="2_lhmc3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhmc3"]
+resource_local_to_scene = true
+
+[node name="Drone_Corpse" unique_id=571611384 instance=ExtResource("1_b5srt")]
+
+[node name="Collision" parent="StaticBody2D" parent_id_path=PackedInt32Array(703748307) index="0" unique_id=910655723]
+shape = SubResource("CircleShape2D_lhmc3")
+
+[node name="Sprite" parent="." index="1" unique_id=1191821641]
+scale = Vector2(0.377, 0.377)
+sprite_frames = ExtResource("2_lhmc3")
+animation = &"Down"
+autoplay = "Down"

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cfbyk7uopiaws"]
+
+[ext_resource type="PackedScene" uid="uid://c7mwnlui8vo04" path="res://scenes/entity.tscn" id="1_kjj2o"]
+[ext_resource type="SpriteFrames" uid="uid://7y8phs4am5q" path="res://assets/Ants/soldier_SpriteFrames.tres" id="2_cshbo"]
+[ext_resource type="Script" uid="uid://gtsmsc8jl26y" path="res://scripts/entity/soldier.gd" id="2_o05g0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o05g0"]
+resource_local_to_scene = true
+radius = 18.0
+height = 72.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x5gcq"]
+resource_local_to_scene = true
+radius = 19.0
+
+[node name="Soldier" unique_id=1305847055 instance=ExtResource("1_kjj2o")]
+script = ExtResource("2_o05g0")
+sprite_frames = ExtResource("2_cshbo")
+type_name = "soldier"
+group = "ants"
+max_hunger = 360
+speed = 30
+
+[node name="CollisionShape2D" parent="Sight_Area" parent_id_path=PackedInt32Array(643319598) index="0" unique_id=912604516]
+position = Vector2(0, 18)
+shape = SubResource("CapsuleShape2D_o05g0")
+
+[node name="CollisionShape2D" parent="CollisionArea" parent_id_path=PackedInt32Array(692836915) index="0" unique_id=1608485846]
+shape = SubResource("CircleShape2D_x5gcq")
+
+[node name="Sprite" parent="." index="3" unique_id=1169619754]
+scale = Vector2(0.6942308, 0.7)
+sprite_frames = ExtResource("2_cshbo")
+animation = &"Idle Down"
+frame_progress = 0.57084405
+
+[node name="Outline_Sprite" parent="." index="4" unique_id=360754039]
+scale = Vector2(0.6942308, 0.7)
+sprite_frames = ExtResource("2_cshbo")
+animation = &"Idle Down"
+
+[node name="Hold_Item_Slot" parent="." index="5" unique_id=813757799]
+position = Vector2(0, 19)

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cqdbnt1ibbgnt"]
+
+[ext_resource type="PackedScene" uid="uid://bnp5q1kn0n4yj" path="res://scenes/objects/corpse.tscn" id="1_a3icx"]
+[ext_resource type="SpriteFrames" uid="uid://dxenlevxmqx3e" path="res://entity/ants/corpses/princess.tres" id="2_knic3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_knic3"]
+resource_local_to_scene = true
+radius = 20.09975
+
+[node name="Princess_Corpse" unique_id=571611384 instance=ExtResource("1_a3icx")]
+
+[node name="Collision" parent="StaticBody2D" parent_id_path=PackedInt32Array(703748307) index="0" unique_id=910655723]
+shape = SubResource("CircleShape2D_knic3")
+
+[node name="Sprite" parent="." index="1" unique_id=1191821641]
+scale = Vector2(0.838, 0.838)
+sprite_frames = ExtResource("2_knic3")
+animation = &"Down"
+autoplay = "Down"

@@ -1,0 +1,54 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://btmsw6x6bod7f"]
+
+[ext_resource type="Texture2D" uid="uid://bnga7spo3vnrq" path="res://assets/Ants/Ant-Soldier.png" id="1_h6lfu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8ipu"]
+atlas = ExtResource("1_h6lfu")
+region = Rect2(195, 1040, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ol3tm"]
+atlas = ExtResource("1_h6lfu")
+region = Rect2(195, 1105, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxqyl"]
+atlas = ExtResource("1_h6lfu")
+region = Rect2(195, 1170, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_185xj"]
+atlas = ExtResource("1_h6lfu")
+region = Rect2(195, 1235, 65, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8ipu")
+}],
+"loop": 1,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ol3tm")
+}],
+"loop": 1,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxqyl")
+}],
+"loop": 1,
+"name": &"Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_185xj")
+}],
+"loop": 1,
+"name": &"Up",
+"speed": 5.0
+}]

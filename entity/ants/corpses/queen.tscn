@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dv24n2ptnun3o"]
+
+[ext_resource type="PackedScene" uid="uid://bnp5q1kn0n4yj" path="res://scenes/objects/corpse.tscn" id="1_f2p5c"]
+[ext_resource type="SpriteFrames" uid="uid://blmhyjlxtpx3a" path="res://entity/ants/corpses/queen.tres" id="2_ak2p7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ak2p7"]
+resource_local_to_scene = true
+radius = 24.083189
+
+[node name="Queen_Corpse" unique_id=571611384 instance=ExtResource("1_f2p5c")]
+
+[node name="Collision" parent="StaticBody2D" parent_id_path=PackedInt32Array(703748307) index="0" unique_id=910655723]
+shape = SubResource("CircleShape2D_ak2p7")
+
+[node name="Sprite" parent="." index="1" unique_id=1191821641]
+sprite_frames = ExtResource("2_ak2p7")
+animation = &"Down"
+autoplay = "Down"

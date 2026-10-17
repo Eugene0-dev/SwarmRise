@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://db00w6mjqgo52"]
+
+[ext_resource type="PackedScene" uid="uid://dqrstebktkail" path="res://entity/ants/queen.tscn" id="1_ep5rh"]
+[ext_resource type="Script" uid="uid://bfuhsb57f0hhy" path="res://scripts/ui/loading_screen.gd" id="1_hprjd"]
+[ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="2_ku3bi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqjoi"]
+bg_color = Color(0.11372549, 0.11372549, 0.11372549, 0.50980395)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hprjd"]
+font_size = 48
+font_color = Color(1, 0.36862746, 0.023529412, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ku3bi"]
+font_size = 24
+
+[node name="Loading_Screen" type="Control" unique_id=2102559605]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_hprjd")
+
+[node name="Panel" type="Panel" parent="." unique_id=1565646565]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = ExtResource("2_ku3bi")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hqjoi")
+
+[node name="Queen" parent="Panel" unique_id=1305847055 instance=ExtResource("1_ep5rh")]
+position = Vector2(578, 325)
+scale = Vector2(5, 5)
+input_pickable = false
+
+[node name="Title_Label" type="Label" parent="Panel" unique_id=1395546360]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 21.0
+offset_right = 867.0
+offset_bottom = 70.0
+text = "!WORLD GENERATION!"
+label_settings = SubResource("LabelSettings_hprjd")
+
+[node name="Seed_Label" type="Label" parent="Panel" unique_id=2065175497]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 583.0
+offset_right = 108.0
+offset_bottom = 617.0
+text = "seed: "
+label_settings = SubResource("LabelSettings_ku3bi")
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel" unique_id=1481862441]
+layout_mode = 0
+offset_top = 609.0
+offset_right = 1152.0
+offset_bottom = 648.0

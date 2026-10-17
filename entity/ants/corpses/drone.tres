@@ -1,0 +1,54 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dyh6ei24qatf8"]
+
+[ext_resource type="Texture2D" uid="uid://c5nvrsw3r8pud" path="res://assets/Ants/Ant-Drone.png" id="1_debxk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjaym"]
+atlas = ExtResource("1_debxk")
+region = Rect2(195, 1040, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpa4r"]
+atlas = ExtResource("1_debxk")
+region = Rect2(195, 1105, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmw1a"]
+atlas = ExtResource("1_debxk")
+region = Rect2(195, 1170, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bffoi"]
+atlas = ExtResource("1_debxk")
+region = Rect2(195, 1235, 65, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjaym")
+}],
+"loop": 1,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpa4r")
+}],
+"loop": 1,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmw1a")
+}],
+"loop": 1,
+"name": &"Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bffoi")
+}],
+"loop": 1,
+"name": &"Up",
+"speed": 5.0
+}]

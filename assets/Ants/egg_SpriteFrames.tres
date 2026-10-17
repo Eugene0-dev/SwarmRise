@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://6d21i313rd65"]
+
+[ext_resource type="Texture2D" uid="uid://cm15oes3vq7j" path="res://assets/Ants/ANT_EGG.png" id="1_win3s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8egit"]
+atlas = ExtResource("1_win3s")
+region = Rect2(0, 0, 65, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8egit")
+}],
+"loop": 0,
+"name": &"Idle Down",
+"speed": 5.0
+}]

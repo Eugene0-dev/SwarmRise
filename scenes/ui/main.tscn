@@ -1,0 +1,261 @@
+[gd_scene format=3 uid="uid://cvwq7r2cduraj"]
+
+[ext_resource type="Script" uid="uid://bck2utsujbbfn" path="res://scripts/world_map.gd" id="1_choun"]
+[ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="1_o5qli"]
+[ext_resource type="Material" uid="uid://qg44xuqox7n5" path="res://assets/shaders/ground_material.tres" id="1_qmqn8"]
+[ext_resource type="TileSet" uid="uid://62aow83kma2b" path="res://assets/tilesets/ground_tileset.tres" id="1_sugp2"]
+[ext_resource type="TileSet" uid="uid://b4cjx62nwwh2i" path="res://assets/tilesets/water_tileset.tres" id="2_jyhfs"]
+[ext_resource type="Script" uid="uid://b51psv5vie58c" path="res://scripts/ui/main_menu.gd" id="2_sugp2"]
+[ext_resource type="Material" uid="uid://be5pdkfanhqyr" path="res://assets/shaders/background_material.tres" id="3_85g3d"]
+[ext_resource type="Material" uid="uid://dxf52pji3oaus" path="res://assets/shaders/water_material.tres" id="4_55yel"]
+[ext_resource type="TileSet" uid="uid://cxng54clsdivr" path="res://assets/tilesets/objects_tileset.tres" id="4_ya4ey"]
+[ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="6_26ekd"]
+[ext_resource type="Texture2D" uid="uid://docjaukdt0n3e" path="res://assets/logos/logo_sf.png" id="7_o6xl0"]
+[ext_resource type="FontFile" uid="uid://02plmeikiu1x" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="7_ya4ey"]
+[ext_resource type="FontFile" uid="uid://dookrj6r65h38" path="res://assets/OpenLukyanov.otf" id="8_6ic3k"]
+[ext_resource type="Texture2D" uid="uid://dnfkmi00g73sh" path="res://assets/logos/github_black.png" id="10_6ic3k"]
+[ext_resource type="Texture2D" uid="uid://bikjqv3xwcgoy" path="res://assets/logos/github_white.png" id="11_gph5m"]
+[ext_resource type="Texture2D" uid="uid://dlshu24cfyq6d" path="res://assets/logos/Logo-NW.png" id="13_6ic3k"]
+[ext_resource type="Script" uid="uid://b8ifiakxfsr3a" path="res://scripts/ui/settings_panel.gd" id="17_55yel"]
+[ext_resource type="LabelSettings" uid="uid://dywbh20a23wl8" path="res://assets/styles/label_settings.tres" id="18_26ekd"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kbnl5"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hyu26"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dss4m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x68jn"]
+font = ExtResource("8_6ic3k")
+font_size = 64
+font_color = Color(1, 0.7254902, 0.3137255, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sgp6g"]
+font = ExtResource("7_ya4ey")
+font_size = 96
+font_color = Color(0.18039216, 0.68235296, 1, 1)
+outline_size = 10
+outline_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyu26"]
+bg_color = Color(1, 1, 1, 0.40784314)
+border_color = Color(0.18478566, 0.1847857, 0.18478552, 1)
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwkiw"]
+bg_color = Color(1, 1, 1, 0.40784314)
+border_color = Color(0.18431373, 0.18431373, 0.18431373, 1)
+corner_radius_top_left = 20
+corner_radius_bottom_left = 20
+corner_detail = 1
+
+[node name="Main" type="Node2D" unique_id=381476108]
+
+[node name="WorldMap" type="TileMapLayer" parent="." unique_id=1297678688]
+material = ExtResource("1_qmqn8")
+tile_set = ExtResource("1_sugp2")
+script = ExtResource("1_choun")
+noise = SubResource("FastNoiseLite_kbnl5")
+objective_noise = SubResource("FastNoiseLite_hyu26")
+ground_material_noise = SubResource("FastNoiseLite_dss4m")
+custom_size = true
+map_width = 160
+map_height = 96
+tileset = ExtResource("1_sugp2")
+
+[node name="Water" type="TileMapLayer" parent="WorldMap" unique_id=189885511]
+material = ExtResource("4_55yel")
+tile_set = ExtResource("2_jyhfs")
+
+[node name="Objects" type="TileMapLayer" parent="WorldMap" unique_id=2109418463]
+material = ExtResource("6_26ekd")
+tile_set = ExtResource("4_ya4ey")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=691050972]
+
+[node name="Decor" type="ColorRect" parent="CanvasLayer" unique_id=539804004]
+material = ExtResource("3_85g3d")
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Main_Menu" type="Control" parent="CanvasLayer" unique_id=1088482334]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("2_sugp2")
+
+[node name="Label2" type="Label" parent="CanvasLayer/Main_Menu" unique_id=248449944]
+layout_mode = 0
+offset_left = 593.0
+offset_top = 101.0
+offset_right = 752.0
+offset_bottom = 166.0
+text = "rise"
+label_settings = SubResource("LabelSettings_x68jn")
+
+[node name="Label" type="Label" parent="CanvasLayer/Main_Menu/Label2" unique_id=1418511061]
+layout_mode = 0
+offset_left = -213.0
+offset_top = -86.0
+offset_right = 181.0
+offset_bottom = 31.0
+text = "<Swarm/>"
+label_settings = SubResource("LabelSettings_sgp6g")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Main_Menu" unique_id=714326318]
+layout_mode = 0
+offset_left = 347.0
+offset_top = 164.0
+offset_right = 799.0
+offset_bottom = 610.0
+theme = ExtResource("1_o5qli")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Main_Menu/Panel" unique_id=547781021]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 45.0
+offset_right = 431.0
+offset_bottom = 397.0
+
+[node name="Play" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=1173986608]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = ExtResource("1_o5qli")
+theme_override_font_sizes/font_size = 40
+text = "New Game"
+
+[node name="Load" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=1479071167]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = ExtResource("1_o5qli")
+text = "Load Game"
+
+[node name="Settings" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=575349889]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="CanvasLayer/Main_Menu/Panel/VBoxContainer" unique_id=1093042630]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = ExtResource("1_o5qli")
+theme_override_font_sizes/font_size = 40
+text = "Quit
+"
+
+[node name="Github_Button" type="TextureButton" parent="CanvasLayer/Main_Menu" unique_id=964198965]
+layout_mode = 0
+offset_left = 55.00001
+offset_top = 583.99994
+offset_right = 111.281044
+offset_bottom = 641.2409
+rotation = -0.53232545
+texture_normal = ExtResource("10_6ic3k")
+texture_hover = ExtResource("11_gph5m")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Dev_Logo_0" type="TextureRect" parent="CanvasLayer/Main_Menu" unique_id=1954563048]
+texture_filter = 5
+layout_mode = 0
+offset_left = 971.0
+offset_top = 8.0
+offset_right = 1144.0
+offset_bottom = 180.0
+texture = ExtResource("7_o6xl0")
+expand_mode = 5
+
+[node name="Dev_Name_0" type="LineEdit" parent="CanvasLayer/Main_Menu/Dev_Logo_0" unique_id=2035535852]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 173.0
+offset_right = 165.0
+offset_bottom = 204.0
+mouse_filter = 2
+theme = ExtResource("1_o5qli")
+text = "Sleepie.Fox"
+alignment = 1
+editable = false
+virtual_keyboard_enabled = false
+
+[node name="Dev_Logo_1" type="TextureRect" parent="CanvasLayer/Main_Menu" unique_id=1674686139]
+texture_filter = 5
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 181.0
+offset_bottom = 181.0
+texture = ExtResource("13_6ic3k")
+expand_mode = 5
+
+[node name="Dev_Name_1" type="LineEdit" parent="CanvasLayer/Main_Menu/Dev_Logo_1" unique_id=1788278661]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 173.0
+offset_right = 165.0
+offset_bottom = 204.0
+mouse_filter = 2
+theme = ExtResource("1_o5qli")
+text = "Ninja-_-W.W."
+alignment = 1
+editable = false
+
+[node name="Settings_Panel" type="Panel" parent="CanvasLayer/Main_Menu" unique_id=520387781]
+layout_mode = 0
+offset_left = -330.0
+offset_bottom = 648.0
+theme = ExtResource("1_o5qli")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hyu26")
+script = ExtResource("17_55yel")
+
+[node name="Settings_Horizontal" type="VBoxContainer" parent="CanvasLayer/Main_Menu/Settings_Panel" unique_id=1828418183]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 34.0
+offset_right = 92.0
+offset_bottom = 74.0
+
+[node name="World_Size" type="HBoxContainer" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal" unique_id=1895917410]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size" unique_id=1845511665]
+layout_mode = 2
+text = "world size"
+label_settings = ExtResource("18_26ekd")
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size" unique_id=1931050959]
+layout_mode = 2
+alignment = 1
+
+[node name="Retile_Mode" type="HBoxContainer" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal" unique_id=1288536085]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/Retile_Mode" unique_id=1349120557]
+layout_mode = 2
+text = "retile mode"
+label_settings = ExtResource("18_26ekd")
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/Retile_Mode" unique_id=342682206]
+layout_mode = 2
+alignment = 1
+
+[node name="Load_Panel" type="Panel" parent="CanvasLayer/Main_Menu" unique_id=1149749929]
+layout_mode = 0
+offset_left = 1152.0
+offset_right = 1482.0
+offset_bottom = 648.0
+theme = ExtResource("1_o5qli")
+theme_override_styles/panel = SubResource("StyleBoxFlat_hwkiw")
+
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Play" to="CanvasLayer/Main_Menu" method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Load" to="CanvasLayer/Main_Menu" method="_on_load_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Settings" to="CanvasLayer/Main_Menu" method="_on_settings_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Panel/VBoxContainer/Quit" to="CanvasLayer/Main_Menu" method="_on_quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/Main_Menu/Github_Button" to="CanvasLayer/Main_Menu" method="_on_github_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/World_Size/OptionButton" to="CanvasLayer/Main_Menu/Settings_Panel" method="_on_world_size_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/Main_Menu/Settings_Panel/Settings_Horizontal/Retile_Mode/OptionButton" to="CanvasLayer/Main_Menu/Settings_Panel" method="_on_retile_mode_item_selected"]

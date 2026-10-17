@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dxhtm1njf1at5"]
+
+[ext_resource type="Shader" uid="uid://rnmcp6gww8sj" path="res://assets/shaders/woods_material.gdshader" id="1_cxb6j"]
+
+[resource]
+shader = ExtResource("1_cxb6j")
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 1.5
+shader_parameter/phase_offset = 0.5
+shader_parameter/tile_height_pixels = 8.0
+shader_parameter/de_saturation = 0.3390000161025
+shader_parameter/volume_shadow = 0.10000000475
+shader_parameter/light_gradient = 0.10000000475

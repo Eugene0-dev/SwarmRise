@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://db1xiyp3dk1yo"]
+
+[ext_resource type="Shader" uid="uid://bvj1d1ghv343s" path="res://assets/shaders/items_material.gdshader" id="1_a84pu"]
+
+[resource]
+shader = ExtResource("1_a84pu")
+shader_parameter/wobble_speed = 0.0
+shader_parameter/wobble_amount = 0.0010000000475
+shader_parameter/shine_color = Color(1, 1, 1, 0.24705882)
+shader_parameter/shine_speed = 1.0000000475
+shader_parameter/shine_size = 0.15
+shader_parameter/outline_color = Color(0, 0, 0, 0.8)
+shader_parameter/outline_width = 0.0

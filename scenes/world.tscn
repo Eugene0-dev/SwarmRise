@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://mgb88oecud1x"]
+
+[ext_resource type="TileSet" uid="uid://62aow83kma2b" path="res://assets/tilesets/ground_tileset.tres" id="1_4wyf3"]
+[ext_resource type="Script" uid="uid://djsoxblnhf7do" path="res://scripts/world.gd" id="1_e3hyu"]
+[ext_resource type="PackedScene" uid="uid://u3j3f2rkvkde" path="res://scenes/main_cam.tscn" id="1_i7141"]
+[ext_resource type="Script" uid="uid://bck2utsujbbfn" path="res://scripts/world_map.gd" id="2_4wyf3"]
+[ext_resource type="Material" uid="uid://be5pdkfanhqyr" path="res://assets/shaders/background_material.tres" id="3_dss4m"]
+[ext_resource type="PackedScene" uid="uid://e6t581fwt3w4" path="res://scenes/ui/ui.tscn" id="4_7r4gi"]
+[ext_resource type="Material" uid="uid://qg44xuqox7n5" path="res://assets/shaders/ground_material.tres" id="4_dss4m"]
+[ext_resource type="PackedScene" uid="uid://db00w6mjqgo52" path="res://scenes/ui/loading_screen.tscn" id="4_q5onr"]
+[ext_resource type="TileSet" uid="uid://b4cjx62nwwh2i" path="res://assets/tilesets/water_tileset.tres" id="4_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://by5gnra34hqk8" path="res://scenes/ui/menu.tscn" id="7_4mrxx"]
+[ext_resource type="Material" uid="uid://dxf52pji3oaus" path="res://assets/shaders/water_material.tres" id="7_7t5mc"]
+[ext_resource type="TileSet" uid="uid://cxng54clsdivr" path="res://assets/tilesets/objects_tileset.tres" id="7_jhx03"]
+[ext_resource type="Shader" uid="uid://bpxpsvheg46kf" path="res://assets/shaders/clouds.gdshader" id="7_q5onr"]
+[ext_resource type="PackedScene" uid="uid://dvok55ylpfdak" path="res://scenes/ui/control.tscn" id="8_4mrxx"]
+[ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="9_lakw3"]
+[ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="10_jhx03"]
+[ext_resource type="PackedScene" uid="uid://cbyed246iectj" path="res://scenes/ui/calendar.tscn" id="13_pm21f"]
+
+[sub_resource type="GDScript" id="GDScript_e3hyu"]
+script/source = "extends DirectionalLight2D
+
+var time: float
+
+func _ready() -> void:
+	Global.tick.connect(_on_tick)
+	energy = 0
+	time = 0
+
+func _on_tick() -> void:
+	var day_progress: float = (Global.hour * 50.0) / Global.DAY_LENGTH
+	var angle: float = (day_progress * TAU) - (PI / 2.0)
+	energy = sin(angle)
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kbnl5"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hyu26"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hwkiw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhx03"]
+shader = ExtResource("7_q5onr")
+shader_parameter/shadow_color = Color(0.1, 0.1, 0.1, 0.05)
+shader_parameter/speed = Vector2(12, 6)
+shader_parameter/cloud_scale = 0.001
+shader_parameter/cloud_density = 0.5
+shader_parameter/pixel_size = 4.0
+
+[node name="World" type="Node2D" unique_id=1784041464 node_paths=PackedStringArray("world_map")]
+script = ExtResource("1_e3hyu")
+world_map = NodePath("Ground")
+
+[node name="Sun" type="DirectionalLight2D" parent="." unique_id=1931813038]
+color = Color(0.94509804, 0.5294118, 0.14117648, 0.67058825)
+shadow_enabled = true
+height = 1.0
+script = SubResource("GDScript_e3hyu")
+
+[node name="MainCam" parent="." unique_id=417974111 instance=ExtResource("1_i7141")]
+position = Vector2(574, 322)
+
+[node name="Background" type="ColorRect" parent="MainCam" unique_id=1745468758]
+material = ExtResource("3_dss4m")
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 575.0
+offset_bottom = 324.0
+offset_transform_enabled = true
+offset_transform_rotation = -6.2831855
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=832490954]
+texture_filter = 1
+material = ExtResource("4_dss4m")
+tile_set = ExtResource("1_4wyf3")
+script = ExtResource("2_4wyf3")
+noise = SubResource("FastNoiseLite_kbnl5")
+objective_noise = SubResource("FastNoiseLite_hyu26")
+ground_material_noise = SubResource("FastNoiseLite_hwkiw")
+map_width = 2048
+map_height = 2048
+tileset = ExtResource("1_4wyf3")
+
+[node name="Items" type="Node2D" parent="Ground" unique_id=1542807609]
+
+[node name="Water" type="TileMapLayer" parent="Ground" unique_id=49426209]
+z_index = 1
+texture_filter = 1
+material = ExtResource("7_7t5mc")
+tile_set = ExtResource("4_w7kh3")
+collision_enabled = false
+
+[node name="Entities" type="Node2D" parent="Ground" unique_id=276063652]
+z_index = 1
+
+[node name="Objects" type="TileMapLayer" parent="Ground" unique_id=742766779]
+y_sort_enabled = true
+texture_filter = 1
+material = ExtResource("9_lakw3")
+tile_set = ExtResource("7_jhx03")
+
+[node name="Clouds" type="ColorRect" parent="." unique_id=1857313412]
+material = SubResource("ShaderMaterial_jhx03")
+offset_right = 16384.0
+offset_bottom = 16384.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1938131592]
+
+[node name="Calendar" parent="CanvasLayer" unique_id=1839198061 instance=ExtResource("13_pm21f")]
+mouse_filter = 2
+
+[node name="UI" parent="CanvasLayer" unique_id=2089034143 instance=ExtResource("4_7r4gi")]
+visible = false
+
+[node name="Control" parent="CanvasLayer" unique_id=7305411 node_paths=PackedStringArray("camera", "world") instance=ExtResource("8_4mrxx")]
+visible = false
+camera = NodePath("../../MainCam")
+world = NodePath("../..")
+
+[node name="Loading_Screen" parent="CanvasLayer" unique_id=131432325 node_paths=PackedStringArray("world_map", "camera") instance=ExtResource("4_q5onr")]
+visible = false
+mouse_filter = 2
+theme = ExtResource("10_jhx03")
+world_map = NodePath("../../Ground")
+camera = NodePath("../../MainCam")
+
+[node name="Menu" parent="CanvasLayer" unique_id=1081462586 node_paths=PackedStringArray("world_map") instance=ExtResource("7_4mrxx")]
+visible = false
+offset_left = -2.0
+offset_right = -2.0
+theme = ExtResource("10_jhx03")
+world_map = NodePath("../../Ground")
+
+[connection signal="generation_complete" from="Ground" to="." method="_on_ground_generation_complete"]
+[connection signal="generation_complete" from="Ground" to="Ground" method="_on_generation_complete"]

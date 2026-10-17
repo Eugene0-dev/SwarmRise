@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://c7mwnlui8vo04"]
+
+[ext_resource type="Script" uid="uid://h2uiok1thyoh" path="res://scripts/entity/entity.gd" id="1_iiwub"]
+[ext_resource type="Material" uid="uid://cuhhwecn5wjd2" path="res://assets/shaders/entity_material.tres" id="3_m0cyi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xhrbk"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iiwub"]
+radius = 4.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iiwub"]
+resource_local_to_scene = true
+radius = 17.0
+height = 68.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gr72c"]
+resource_local_to_scene = true
+radius = 11.045361
+
+[node name="Entity" type="CharacterBody2D" unique_id=1305847055]
+collision_layer = 255
+collision_mask = 255
+collision_priority = 100.0
+input_pickable = true
+script = ExtResource("1_iiwub")
+sprite_frames = SubResource("SpriteFrames_xhrbk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=283948992]
+z_index = 2
+y_sort_enabled = true
+shape = SubResource("CircleShape2D_iiwub")
+
+[node name="Sight_Area" type="Area2D" parent="." unique_id=643319598]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sight_Area" unique_id=912604516]
+position = Vector2(0, 17)
+shape = SubResource("CapsuleShape2D_iiwub")
+
+[node name="Hold_Item_Slot" type="Node2D" parent="Sight_Area" unique_id=813757799]
+position = Vector2(0, 11)
+
+[node name="CollisionArea" type="Area2D" parent="." unique_id=692836915]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea" unique_id=1608485846]
+shape = SubResource("CircleShape2D_gr72c")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1169619754]
+texture_filter = 1
+texture_repeat = 1
+sprite_frames = SubResource("SpriteFrames_xhrbk")
+
+[node name="Outline_Sprite" type="AnimatedSprite2D" parent="." unique_id=360754039]
+visible = false
+z_index = 10
+material = ExtResource("3_m0cyi")
+sprite_frames = SubResource("SpriteFrames_xhrbk")

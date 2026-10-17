@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://dvok55ylpfdak"]
+
+[ext_resource type="Script" uid="uid://dbna8rqcrlt4y" path="res://scripts/ui/control.gd" id="1_5p55f"]
+[ext_resource type="FontFile" uid="uid://ly524xhenbkv" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="2_brbbq"]
+[ext_resource type="Theme" uid="uid://cf7qinaxog0mv" path="res://assets/menu_theme.tres" id="2_r67kn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r67kn"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 4
+
+[sub_resource type="GDScript" id="GDScript_5p55f"]
+resource_name = "fps_label"
+script/source = "extends Label
+
+func _process(delta: float) -> void:
+	text = \"FPS: %d\" % Engine.get_frames_per_second()
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_cr3o2"]
+font = ExtResource("2_brbbq")
+font_size = 32
+font_color = Color(0.21110946, 0.476551, 0.8201062, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" unique_id=7305411]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_5p55f")
+
+[node name="FPS_Label" type="Label" parent="." unique_id=1134638564]
+layout_mode = 0
+offset_left = 1068.0
+offset_top = 519.0
+offset_right = 1108.0
+offset_bottom = 542.0
+text = "FPS: "
+label_settings = SubResource("LabelSettings_r67kn")
+script = SubResource("GDScript_5p55f")
+
+[node name="Info" type="TextEdit" parent="." unique_id=2127929014]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 329.0
+offset_right = 245.0
+offset_bottom = 472.0
+theme = ExtResource("2_r67kn")
+editable = false
+
+[node name="Target_Label" type="Label" parent="." unique_id=1435795983]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 476.0
+offset_right = 305.0
+offset_bottom = 515.0
+text = "tg: None"
+label_settings = SubResource("LabelSettings_cr3o2")
+
+[node name="Command_History_TextEdit" type="TextEdit" parent="." unique_id=2077609288]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 545.0
+offset_right = 1144.0
+offset_bottom = 648.0
+theme = ExtResource("2_r67kn")
+placeholder_text = "command history"
+editable = false
+
+[node name="Command_LineEdit" type="LineEdit" parent="." unique_id=702534369]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 514.0
+offset_right = 1144.0
+offset_bottom = 550.0
+theme = ExtResource("2_r67kn")
+placeholder_text = "command line"
+
+[node name="Command_Hints_ItemList" type="ItemList" parent="." unique_id=1462063450]
+layout_mode = 0
+offset_left = 1033.0
+offset_right = 1152.0
+offset_bottom = 513.0
+theme = ExtResource("2_r67kn")
+auto_width = true
+same_column_width = true
+
+[connection signal="item_clicked" from="Command_Hints_ItemList" to="." method="_on_command_hints_item_list_item_clicked"]

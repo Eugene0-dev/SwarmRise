@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bnp5q1kn0n4yj"]
+
+[ext_resource type="Script" uid="uid://o3u3ehhmwcuo" path="res://scripts/entity/corpse.gd" id="1_liquy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kbnl5"]
+resource_local_to_scene = true
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uloq2"]
+
+[node name="Corpse" type="Node2D" unique_id=571611384]
+script = ExtResource("1_liquy")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=703748307]
+
+[node name="Collision" type="CollisionShape2D" parent="StaticBody2D" unique_id=910655723]
+shape = SubResource("CircleShape2D_kbnl5")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1191821641]
+texture_filter = 1
+texture_repeat = 1
+sprite_frames = SubResource("SpriteFrames_uloq2")

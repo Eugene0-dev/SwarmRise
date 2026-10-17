@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://ce8daftdwp6dh"]
+
+[ext_resource type="Material" uid="uid://dxhtm1njf1at5" path="res://assets/shaders/woods_material.tres" id="1_5qchx"]
+[ext_resource type="Texture2D" uid="uid://e4sysx7v2aah" path="res://assets/tilesets/DIY/tileset_plants_upscale4x.png" id="2_eogu4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbnl5"]
+resource_local_to_scene = true
+atlas = ExtResource("2_eogu4")
+region = Rect2(14.073975, 97.420746, 179.262, 155.4054)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kbnl5"]
+size = Vector2(50, 20.5)
+
+[node name="Tree" type="Node2D" unique_id=1031045254]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=947582195]
+z_index = 1
+y_sort_enabled = true
+material = ExtResource("1_5qchx")
+texture = SubResource("AtlasTexture_kbnl5")
+centered = false
+offset = Vector2(-90, -140)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2014688437]
+position = Vector2(1, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1923448226]
+position = Vector2(-1, 8)
+shape = SubResource("RectangleShape2D_kbnl5")

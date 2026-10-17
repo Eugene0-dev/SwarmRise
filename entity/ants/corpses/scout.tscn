@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dbccnu5ldsdpb"]
+
+[ext_resource type="PackedScene" uid="uid://bnp5q1kn0n4yj" path="res://scenes/objects/corpse.tscn" id="1_007r5"]
+[ext_resource type="SpriteFrames" uid="uid://8i1arx1et0qr" path="res://entity/ants/corpses/scout.tres" id="2_07tyq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_07tyq"]
+resource_local_to_scene = true
+radius = 18.0
+
+[node name="Scout_Corpse" unique_id=571611384 instance=ExtResource("1_007r5")]
+
+[node name="Collision" parent="StaticBody2D" parent_id_path=PackedInt32Array(703748307) index="0" unique_id=910655723]
+shape = SubResource("CircleShape2D_07tyq")
+
+[node name="Sprite" parent="." index="1" unique_id=1191821641]
+scale = Vector2(0.706, 0.706)
+sprite_frames = ExtResource("2_07tyq")
+animation = &"Down"
+autoplay = "Down"

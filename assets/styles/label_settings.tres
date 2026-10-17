@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://dywbh20a23wl8"]
+
+[ext_resource type="FontFile" uid="uid://ly524xhenbkv" path="res://assets/PauzaStencil-Bold.75bac0b8ac7045f0ca78454a964c0835.ttf" id="1_had61"]
+
+[resource]
+font = ExtResource("1_had61")
+font_size = 24
+font_color = Color(0.023529412, 0.58431375, 1, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)

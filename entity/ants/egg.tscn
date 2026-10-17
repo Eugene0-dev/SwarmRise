@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://cyw6m6pcqfn81"]
+
+[ext_resource type="PackedScene" uid="uid://c7mwnlui8vo04" path="res://scenes/entity.tscn" id="1_npq0x"]
+[ext_resource type="Script" uid="uid://cr6cx4vu0c2cx" path="res://scripts/entity/egg.gd" id="2_2patf"]
+[ext_resource type="SpriteFrames" uid="uid://6d21i313rd65" path="res://assets/Ants/egg_SpriteFrames.tres" id="3_x10av"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8egit"]
+radius = 3.0
+height = 14.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2patf"]
+resource_local_to_scene = true
+radius = 2.0
+height = 10.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8du17"]
+radius = 2.0
+height = 10.0
+
+[node name="Egg" unique_id=1305847055 node_paths=PackedStringArray("sprite") instance=ExtResource("1_npq0x")]
+script = ExtResource("2_2patf")
+type = "none"
+sprite = NodePath("Sprite")
+lifetime = 30
+outcome_damage = 0
+max_hunger = 0
+speed = 0
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=283948992]
+shape = SubResource("CapsuleShape2D_8egit")
+
+[node name="Sprite" parent="." index="1" unique_id=1169619754]
+position = Vector2(0, 0.5)
+scale = Vector2(0.4, 0.4)
+sprite_frames = ExtResource("3_x10av")
+animation = &"Idle Down"
+autoplay = "Idle Down"
+
+[node name="CollisionShape2D" parent="Sight_Area" parent_id_path=PackedInt32Array(643319598) index="0" unique_id=912604516]
+position = Vector2(0, 0)
+shape = SubResource("CapsuleShape2D_2patf")
+
+[node name="CollisionShape2D" parent="CollisionArea" parent_id_path=PackedInt32Array(692836915) index="0" unique_id=1608485846]
+shape = SubResource("CapsuleShape2D_8du17")

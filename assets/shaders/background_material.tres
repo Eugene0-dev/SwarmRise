@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://be5pdkfanhqyr"]
+
+[ext_resource type="Shader" uid="uid://btofo86abkukh" path="res://assets/shaders/background_material.gdshader" id="1_1sfbk"]
+
+[resource]
+shader = ExtResource("1_1sfbk")
+shader_parameter/line_color = Color(0.42781815, 0.6178695, 0.9551577, 1)
+shader_parameter/fill_color = Color(0.09411765, 0.09411765, 0.09411765, 1)
+shader_parameter/glitch_color = Color(0.96, 0.43, 0, 1)
+shader_parameter/grid_size = 64.0
+shader_parameter/line_thickness = 2.0
+shader_parameter/pixel_size = 1.0
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/signal_speed = 3.0

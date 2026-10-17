@@ -1,0 +1,171 @@
+
+class_name World
+extends Node2D
+
+@onready var sun: DirectionalLight2D = $Sun
+@onready var clouds: ColorRect = $Clouds
+@onready var camera: Camera2D = $MainCam
+
+@export var world_map: WorldMap
+var items: Node2D
+var entities: Node2D
+var sectors: Dictionary
+var nav_grid: AStarGrid2D
+
+var item_registry: Dictionary[Vector2i, Array] = {}
+var entity_registry: Dictionary[Vector2i, Array] = {}
+
+func _ready() -> void:
+	items = world_map.items
+	entities = world_map.entities
+	sectors = world_map.sectors
+	clouds.size.x = world_map.map_width_px
+	clouds.size.y = world_map.map_height_px
+	
+	Global.tick.connect(_on_tick)
+	Global.place_item.connect(_on_place_item_requested)
+	Global.grow_plant.connect(grow)
+	Global.save_game.connect(save_world)
+
+func _on_tick() -> void:
+	fruit_drop()
+
+func fruit_drop():
+	var fruits = [Item.id.REDBALL, Item.id.LAMPFRUIT, Item.id.SUNFRUIT, Item.id.PUSHFRUIT, Item.id.HELLBERRY, Item.id.SUCKBERRY]
+	var the_fruit = fruits.pick_random()
+	var src = world_map.fruit_sources[the_fruit]
+	var trees = src.pick_random()
+	if trees:
+		place_item(the_fruit, Vector2i(randi_range(-50, 50), randi_range(-50, 50))+trees*8)
+
+func save_world():
+	var world_seed: int = world_map.world_seed
+	var items_list: Array[Dictionary]
+	var entities_list: Array
+	
+	for item in items.get_children():
+		if item is Item:
+			items_list.append(DataRaw.extract_item(item))
+	
+	for entity in entities.get_children():
+		if entity is Entity:
+			entities_list.append(DataRaw.extract_entity(entity))
+
+func reg_item(item: Item) -> void:
+	var sector = get_sector_key(item.global_position)
+	item_registry.get_or_add(sector, []).append(item)
+
+func unreg_item(item: Item) -> void:
+	var sector = get_sector_key(item.global_position)
+	if item in item_registry[sector]:
+		item_registry[sector].erase(item)
+
+func place_item(id: Item.id, pos: Vector2) -> Item:
+	if world_map.astar_grid.is_point_solid(get_cell(pos)):
+		return null
+	var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
+	var item: Item = item_scene.instantiate()
+	if id < item.id.size():
+		item.item_id = id
+		item.global_position = pos
+		items.add_child(item)
+		reg_item(item)
+		return item
+	return null
+
+func displace_item(item: Item) -> Item.id:
+	if not item in world_map.items.get_children(): return -1
+	items.remove_child(item)
+	unreg_item(item)
+	return item.item_id
+
+func grow(args: Dictionary) -> Grass:
+	var scene: PackedScene = load("res://scenes/objects/grass.tscn")
+	var grass: Grass = scene.instantiate()
+	grass.global_position = args["pos"]
+	grass.type = args["type"]
+	add_child(grass)
+	return grass
+
+func reg_entity(entity: Entity) -> void:
+	var sector = entity.current_sector
+	entity_registry.get_or_add(sector, []).append(entity)
+
+func replace_entity(entity: Entity) -> void:
+	entity_registry.get(entity.old_sector).erase(entity)
+	reg_entity(entity)
+
+func create_entity(link: String, pos: Vector2, extra: String = "") -> Entity:
+	var scene: PackedScene = load("res://entity/%s.tscn" % link)
+	if scene:
+		if scene.can_instantiate():
+			var subject = scene.instantiate()
+			if subject is Egg and extra != "":
+				subject.type = extra
+			subject.name = create_entity_name(subject)
+			subject.position = pos
+			subject.environment = self
+			entities.add_child(subject)
+			reg_entity(subject)
+			return subject
+	return null
+
+func create_entity_name(subject: Entity) -> String:
+	var name: String
+	var num: int = randi_range(0, 4000)
+	if subject is Queen:
+		name = "Queen_%d" % num
+	elif subject is Drone:
+		name = "Drone_%d" % num
+	elif subject is Soldier:
+		name = "Soldier_%d" % num
+	elif subject is Scout:
+		name = "Scout_%d" % num
+	elif subject is Princess:
+		name = "Princess_%d" % num
+	elif subject is Egg:
+		name = "Egg_%s_%d" % [subject.type, num]
+	
+	if not get_node_or_null(name):
+		return name
+	else:
+		return create_entity_name(subject)
+
+func get_sector_key(pos: Vector2i) -> Vector2i:
+	var x = pos.x >> 8
+	var y = pos.y >> 8
+	return Vector2i(x, y)
+
+func get_sector_rect(key: Vector2i) -> Rect2i:
+	return sectors[key]
+
+func collect_sector_states(sector: Vector2i) -> Dictionary:
+	return {
+		"time": Global.current_tick,
+		"items": item_registry.get(sector)
+	}
+
+func get_dir_to_sector(from: Vector2, key: Vector2i) -> Vector2i:
+	var sector_center = sectors[key].get_center()
+	return from.direction_to(sector_center)
+
+func get_cell(coordinates: Vector2i) -> Vector2i:
+	var x = coordinates.x >> 3
+	var y = coordinates.y >> 3
+	return Vector2i(x, y)
+
+func _on_place_item_requested(args: Dictionary):
+	place_item(args["id"], args["pos"])
+
+func _on_ground_generation_complete() -> void:
+	nav_grid = world_map.astar_grid
+	var pos = Vector2i(
+		randi_range(100, world_map.map_width_px-100),
+		randi_range(100, world_map.map_height_px-100)
+	)
+	var tile_pos = world_map.water_layer.local_to_map(pos)
+	var tile = world_map.water_layer.get_cell_tile_data(tile_pos)
+	if tile:
+		return _on_ground_generation_complete()
+	create_entity("ants/queen", pos)
+	camera.position = pos

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cohq8colt5igx"]
+
+[ext_resource type="PackedScene" uid="uid://bnp5q1kn0n4yj" path="res://scenes/objects/corpse.tscn" id="1_70w1h"]
+[ext_resource type="SpriteFrames" uid="uid://btmsw6x6bod7f" path="res://entity/ants/corpses/soldier.tres" id="2_x473m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cne4y"]
+resource_local_to_scene = true
+radius = 18.0
+
+[node name="Soldier_Corpse" unique_id=571611384 instance=ExtResource("1_70w1h")]
+
+[node name="Collision" parent="StaticBody2D" parent_id_path=PackedInt32Array(703748307) index="0" unique_id=910655723]
+shape = SubResource("CircleShape2D_cne4y")
+
+[node name="Sprite" parent="." index="1" unique_id=1191821641]
+scale = Vector2(0.7, 0.7)
+sprite_frames = ExtResource("2_x473m")
+animation = &"Down"
+autoplay = "Down"

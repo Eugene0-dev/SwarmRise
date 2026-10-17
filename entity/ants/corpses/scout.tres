@@ -1,0 +1,54 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://8i1arx1et0qr"]
+
+[ext_resource type="Texture2D" uid="uid://cbd84m3mrf5qf" path="res://assets/Ants/Ant-Scout.png" id="1_qq0t7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45x07"]
+atlas = ExtResource("1_qq0t7")
+region = Rect2(195, 1040, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjkat"]
+atlas = ExtResource("1_qq0t7")
+region = Rect2(195, 1105, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsmw1"]
+atlas = ExtResource("1_qq0t7")
+region = Rect2(195, 1170, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4rts"]
+atlas = ExtResource("1_qq0t7")
+region = Rect2(195, 1235, 65, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45x07")
+}],
+"loop": 1,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjkat")
+}],
+"loop": 1,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsmw1")
+}],
+"loop": 1,
+"name": &"Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4rts")
+}],
+"loop": 1,
+"name": &"Up",
+"speed": 5.0
+}]

@@ -1,0 +1,54 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dxenlevxmqx3e"]
+
+[ext_resource type="Texture2D" uid="uid://babkyo4erg5ac" path="res://assets/Ants/Ant-Princess.png" id="1_m5gna"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i60ie"]
+atlas = ExtResource("1_m5gna")
+region = Rect2(195, 1040, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pagee"]
+atlas = ExtResource("1_m5gna")
+region = Rect2(195, 1105, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1a3n"]
+atlas = ExtResource("1_m5gna")
+region = Rect2(195, 1170, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuxh4"]
+atlas = ExtResource("1_m5gna")
+region = Rect2(195, 1235, 65, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i60ie")
+}],
+"loop": 1,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pagee")
+}],
+"loop": 1,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1a3n")
+}],
+"loop": 1,
+"name": &"Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuxh4")
+}],
+"loop": 1,
+"name": &"Up",
+"speed": 5.0
+}]

@@ -1,0 +1,54 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://blmhyjlxtpx3a"]
+
+[ext_resource type="Texture2D" uid="uid://tg47u3np4d1o" path="res://assets/Ants/Ant-Queen.png" id="1_y6ms0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5855t"]
+atlas = ExtResource("1_y6ms0")
+region = Rect2(195, 1040, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i024w"]
+atlas = ExtResource("1_y6ms0")
+region = Rect2(195, 1105, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x0s0"]
+atlas = ExtResource("1_y6ms0")
+region = Rect2(195, 1170, 65, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvlvd"]
+atlas = ExtResource("1_y6ms0")
+region = Rect2(195, 1235, 65, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5855t")
+}],
+"loop": 1,
+"name": &"Down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i024w")
+}],
+"loop": 1,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x0s0")
+}],
+"loop": 1,
+"name": &"Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvlvd")
+}],
+"loop": 1,
+"name": &"Up",
+"speed": 5.0
+}]
