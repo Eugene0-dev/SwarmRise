@@ -29,6 +29,9 @@ func commands_hint_update(has_target: bool):
 		for cmd: String in commands_no_target.keys():
 			command_hints_menu.add_item(cmd.to_lower())
 	if has_target:
+		if not target.executor.command_extension.is_empty():
+			for cmd: String in target.executor.command_extension.keys():
+				command_hints_menu.add_item(cmd.to_lower())
 		for cmd: String in target.executor.commands.keys():
 			command_hints_menu.add_item(cmd.to_lower())
 
@@ -56,57 +59,59 @@ func _process(delta: float) -> void:
 
 func command(cmd_line: String):
 	command_history.text = cmd_line+"\n"+command_history.text
-	var cmd = cmd_line.split(" ")
+	var cmd = Cmd.new(cmd_line)
 	var task = {}
-	match cmd[0]:
-		"breed":
+	match cmd.type:
+		100:
 			if target is Queen:
-				target.exec_command("breed", [cmd[1]])
-		"clear":
+				target.executor.execute(100, {"unit_type": cmd.args["unit_type"]})
+		commands_no_target.CLEAR:
 			info.text = ""
-		"item":
+		commands_no_target.ITEM:
 			var amount: int = 1
-			if len(cmd) > 2: amount = int(cmd[2])
-			world.place_item(int(cmd[1]), camera.global_position, amount)
-		"cam":
+			if len(cmd.args) > 0: amount = cmd.args["amount"]
+			world.place_item(cmd.args["item_id"], camera.global_position, amount)
+		commands_no_target.CAM:
 			if len(cmd)>2:
-				var sec = world.sectors.get(Vector2i(int(cmd[1]), int(cmd[2])))
+				var sec = world.sectors.get(cmd.args["pos"])
 				if sec:
 					camera.position = sec.get_center()
 			elif target:
 				camera.position = target.position
-		"find":
-			match cmd[1]:
+		commands_no_target.FIND:
+			match cmd.args["unit_type"]:
 					"queen": target = world.find_child("Queen_*", true, false)
 					"drone": target = world.find_child("Drone_*", true, false)
 					"soldier": target = world.find_child("Soldier_*", true, false)
 					"scout": target = world.find_child("Scout_*", true, false)
 					"princess": target = world.find_child("Princess_*", true, false)
-					_: target = world.get_node_or_null(cmd[1])
+					_: target = world.get_node_or_null(cmd.args["unit_type"])
 			if target:
 				camera.position = target.position
 				Global.emit_signal("entity_selected", target)
-		"select":
-			target = world.get_node_or_null(cmd[1])
-		"spawn":
-			world.create_entity(cmd[1], camera.global_position)
-		"sector":
+		commands_no_target.SELECT:
+			target = world.get_node_or_null(cmd.args["unit_id"])
+			if target is Entity:
+				Global.entity_selected.emit(target)
+		commands_no_target.SPAWN:
+			world.create_entity(cmd.args["unit_ref"], camera.global_position)
+		commands_no_target.SECTOR:
 			if target:
-				info.text += target.exec_command(cmd[0], cmd.slice(1))+"\n"
+				info.text += target.executor.execute(cmd.type, cmd.args)+"\n"
 			else:
 				var sec = world.get_sector_key(camera.global_position)
 				info.text += "sec: %d %d\n" % [sec.x, sec.y]
-		"debug":
-			match cmd[1]:
+		commands_no_target.DEBUG:
+			match cmd.args[0]:
 				"nav_layer":
-					if cmd[2] == "on":
+					if cmd.args[1] == "on":
 						Global.emit_signal("nav_layer_enabled", world.nav_grid)
-					elif cmd[2] == "off":
+					elif cmd.args[1] == "off":
 						Global.emit_signal("nav_layer_disabled")
 				"nav_trace":
-					if cmd[2] == "on" and target:
+					if cmd.args[1] == "on" and target:
 						Global.emit_signal("track_navigation_enabled", target)
-					elif cmd[2] == "off":
+					elif cmd.args[1] == "off":
 						Global.emit_signal("track_navigation_disabled")
 				"on":
 					if not is_debug_on:

@@ -2,12 +2,14 @@
 class_name ScoutExecutor
 extends Executor
 
-const COMMAND_EXTENSION := {
-	"TAKEOFF": 100
-}
+const CMD_TAKEOFF := 100
+
+func _init(subjcet: Entity) -> void:
+	super(subjcet)
+	command_extension["TAKEOFF"] = CMD_TAKEOFF
 
 func execute(command: commands, args: Dictionary):
 	match command:
-		COMMAND_EXTENSION["TAKEOFF"]:
+		CMD_TAKEOFF:
 			target.takeoff()
-		_: super(command, args)
+		_: return super(command, args)

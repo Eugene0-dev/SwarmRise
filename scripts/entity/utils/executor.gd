@@ -11,6 +11,7 @@ enum commands {
 	CAM, FIND, 
 }
 
+var command_extension: Dictionary = {}
 var target: Entity
 
 func _init(subjcet: Entity) -> void:
