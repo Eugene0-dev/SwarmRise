@@ -41,13 +41,21 @@ func _on_entity_selected(entity: Entity):
 	visible = true
 
 func get_task_as_string(entity: Entity, main: bool = true) -> String:
-	var task = "chill"
+	var task: Task
+
 	if main:
-		if entity.task:
-			task = Task.types.find_key(entity.task.type)
+		if entity.tasks == null or entity.tasks.schedule.is_empty():
+			return "chill"
+		task = entity.tasks.schedule[0]
 	else:
-		if entity.task:
-			if entity.task.subtasks.get(0):
-				task = Task.types.find_key(entity.task.subtasks.get(0).type)
-			
-	return task
+		task = entity.task
+
+	if task == null:
+		return "chill"
+
+	var result := str(Task.types.find_key(task.type))
+
+	for key in task.args:
+		result += " %s: %s" % [key, task.args[key]]
+
+	return result
