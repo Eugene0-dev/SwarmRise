@@ -11,9 +11,8 @@ func _ready() -> void:
 	if not is_entity_src_valid: 
 		queue_free()
 
-func move_at(pos: Vector2i) -> Dictionary:
+func move_at(pos: Vector2) -> void:
 	prefered_pos = position
-	return {"status": 1}
 
 func _physics_process(delta: float) -> void:
 	if  Global.is_tick(delta):

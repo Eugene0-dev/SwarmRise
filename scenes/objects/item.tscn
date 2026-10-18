@@ -8,7 +8,7 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbnl5"]
 resource_local_to_scene = true
 atlas = ExtResource("1_keydj")
-region = Rect2(1, 1, 16, 16)
+region = Rect2(18, 69, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kbnl5"]
 font = ExtResource("4_2mmu4")
@@ -20,7 +20,7 @@ outline_color = Color(0, 0, 0, 1)
 z_index = 1
 y_sort_enabled = true
 script = ExtResource("1_t8k3g")
-item_id = 0
+item_id = 29
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=432637729]
 y_sort_enabled = true

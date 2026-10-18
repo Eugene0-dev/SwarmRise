@@ -39,16 +39,27 @@ var hunger: int = 0
 var knowledges: Dictionary = {}
 
 var is_ai_enabled: bool = true
+
+var tasks: TaskController
+var planner: TaskPlanner
+var nav_agent: NavAgent
+# TO BE REPLACED TaskController
+#---------------------------------
 var schedule: Array = []
 var current_task: Dictionary = {}
 
 var subtasks: Array = []
 var current_subtask: Dictionary = {}
+#---------------------------------
+var task: Task
+
 var stuck_timer: float = 0.0
 var STUCK_THRESHOLD: float = 3.0
 var last_position: Vector2
 
 var environment: World
+
+# TO BE REPLACED CommandRunner
 var specific_commands: Array = [
 	"step", "mv", "mv_s", "pos", "give", "drop", "eat", "feed", "expire", "lifetime", "kill", "play", "stop", "stopall", "st", "team", "ai"
 ]
@@ -66,6 +77,11 @@ func _ready() -> void:
 	idle()
 	prefered_pos = global_position
 	if environment:
+		
+		nav_agent = NavAgent.new(environment, self)
+		planner = TaskPlanner.new(nav_agent)
+		tasks = TaskController.new(planner)
+		
 		create_tween().tween_property(self, "scale", Vector2(1.0, 1.0), 1.0).set_trans(Tween.TRANS_SINE)
 		current_sector = environment.get_sector_key(global_position)
 
@@ -88,20 +104,20 @@ func _process(delta: float) -> void:
 		_sync_outline()
 
 func _physics_process(delta: float) -> void:
-	if Engine.is_editor_hint():
+	if Engine.is_editor_hint() or not environment:
 		idle()
 		return
 		
-	if not current_subtask.is_empty():
-		exec_subtask(current_subtask)
-	elif not subtasks.is_empty():
-		current_subtask = subtasks.pop_front()
-		exec_subtask(current_subtask)
-	elif not current_task.is_empty():
-		exec_task(current_task) 
-	elif not schedule.is_empty():
-		current_task = schedule.pop_front()
-	else: idle()
+	idle()
+
+	if not task or task.status == Task.state.COMPLETE:
+		if tasks.is_busy():
+			task = tasks.pull()
+		else:
+			task = null
+		return
+
+	exec_task(task)
 
 func _on_tick() -> void:
 	lifetime -= 1
@@ -126,6 +142,7 @@ func inspect_sector() -> void:
 	var state = environment.collect_sector_states(sector)
 	knowledges[sector] = state
 
+# ----------------------------------------------
 func add_task(type: String, args: Array) -> void:
 	var task: Dictionary = {"type": type}
 	match type:
@@ -147,63 +164,19 @@ func add_subtask(type: String, args: Array) -> void:
 			subtask["evade"] = args[2]
 	subtasks.append(subtask)
 
-func exec_task(task: Dictionary) -> int:
-	match task["type"]:
-		"wait":
-			task["time"] -= 1
-			if task["time"] <= 0: 
-				complete_task()
-				return 1
-		"mv":
-			var pos = task["pos"]
-			var point = environment.get_cell(Vector2i(global_position))
-			var end_point = environment.get_cell(pos)
-			var path = find_path(point, end_point)
-			
-			if subtasks.size() == 0:
-				for cell in path:
-					var cell_pos = environment.nav_grid.get_point_position(cell)
-					add_subtask("mv", [cell_pos.x, cell_pos.y, false])
-			
-			if not subtasks.is_empty(): return 0
-			else: 
-				complete_task() 
-				return 1
-	return 1
+func exec_task(task: Task) -> int:
+	match task.type:
+		Task.types.WAIT:
+			task.args["time"] -= 1
+			if task.args["time"] <= 0: 
+				tasks.complete()
+				return task.status
+		Task.types.MOVE:
+			move_at(task.args["pos"])
+	return task.status
+# ------------------------------------------------
 
-func exec_subtask(task: Dictionary) -> int:
-	var status: int
-	match task["type"]:
-		"mv":
-			var results = move_at(task["pos"])
-			status = results["status"]
-			
-			if status == -1:
-				complete_subtask()
-				on_stuck_handle(results["obstacle"])
-			
-	if status == 1: complete_subtask()
-	return status
-
-func compress_path(path: Array[Vector2i]) -> Array[Vector2i]:
-	if path.size() <= 2:
-		return path
-	var compressed_path: Array[Vector2i] = [path[0]]
-	var last_dir = path[1] - path[0]
-	for i in range(1, path.size() - 1):
-		var current_dir = path[i + 1] - path[i]
-		
-		if current_dir != last_dir:
-			compressed_path.append(path[i])
-			last_dir = current_dir
-			
-	compressed_path.append(path[-1])
-	return compressed_path
-
-func find_path(point: Vector2i, end_point: Vector2i) -> Array[Vector2i]:
-	var path = environment.nav_grid.get_id_path(point, end_point)
-	return compress_path(path)
-
+# ------------------------------------------------
 func on_stuck_handle(obstacle: Area2D) -> void:
 	var evade_point = global_position+Vector2(get_face_dir())*100
 	
@@ -230,6 +203,50 @@ func on_stuck_handle(obstacle: Area2D) -> void:
 	#else:
 	#	add_subtask("mv", [evade_point.x, prefered_pos.y, false])
 	#	add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
+
+func move_at(pos: Vector2) -> void:
+	var dir = global_position.direction_to(pos)
+
+	if global_position.distance_to(pos) <= 8:
+		tasks.complete()
+		return
+
+	var obstacles = sight_area.get_overlapping_areas()
+	if obstacles.size() > 1:
+		on_stuck_handle(obstacles[0])
+		return
+
+	if global_position.distance_to(last_position) < 0.1 \
+			and velocity != Vector2.ZERO:
+		stuck_timer += 1
+
+		if stuck_timer >= STUCK_THRESHOLD:
+			stuck_timer = 0.0
+			on_stuck_handle(null)
+			return
+	else:
+		stuck_timer = maxf(0.0, stuck_timer - 1)
+
+	walk(dir)
+
+func move_to(target: Node2D) -> bool:
+	return false
+
+func walk(dir: Vector2) -> void:
+	if abs(dir.x) > abs(dir.y):
+		sprite.play("Walk Right" if dir.x > 0 else "Walk Left")
+		face_dir = direction.RIGHT if dir.x > 0 else direction.LEFT
+	else:
+		sprite.play("Walk Down" if dir.y > 0 else "Walk Up")
+		face_dir = direction.DOWN if dir.y > 0 else direction.UP
+	sight_area.rotation = Vector2.DOWN.angle_to(Vector2(get_face_dir()))
+	velocity = dir*speed
+	
+	if not environment.get_sector_rect(current_sector).has_point(last_position):
+		update_sector()
+	
+	move_and_slide()
+# ------------------------------------------------
 
 func exec_command(type: String, args: Array):
 	match type:	
@@ -271,18 +288,16 @@ func exec_command(type: String, args: Array):
 		"kill":
 			income_damage += max_health*100
 		"stop":
-			complete_task()
-			subtasks.clear()
-			complete_subtask()
+			tasks.cancel_current()
+			velocity = Vector2.ZERO
 		"stopall":
-			schedule.clear()
-			subtasks.clear()
-			complete_task()
-			complete_subtask()
+			tasks.cancel_all()
+			velocity = Vector2.ZERO
 			prefered_pos = global_position
-			sprite.play("Idle Down")
+			idle()
 		"mv": 
-			add_task("mv", [int(args[0]), int(args[1]), false])
+			var new_task = Task.new(Task.types.MOVE, {"pos": Vector2(args[0], args[1])})
+			tasks.push(new_task)
 		"mv_s":
 			var sec_key = Vector2i(int(args[0]), int(args[1]))
 			var sec = environment.sectors.get(sec_key)
@@ -290,20 +305,13 @@ func exec_command(type: String, args: Array):
 				var sec_center = sec.get_center()
 				add_task("mv", [sec_center.x, sec_center.y, false])
 		"step":
-			add_task("mv", [global_position.x+int(args[0]), global_position.y+int(args[1]), false])
+			var new_task = Task.new(Task.types.MOVE, {"pos": Vector2(global_position.x+int(args[0]), global_position.y+int(args[1]))})
+			tasks.push(new_task)
 		"ai":
 			match args[0]:
 				"on", "1", "enable", "true": is_ai_enabled = true
 				"off", "0", "disable", "false": is_ai_enabled = false
 				_: is_ai_enabled = false
-
-func complete_task() -> void:
-	current_task.clear()
-	idle()
-
-func complete_subtask() -> void:
-	current_subtask.clear()
-	if subtasks.is_empty(): complete_task()
 
 func idle() -> void:
 	if not sprite: return
@@ -312,21 +320,6 @@ func idle() -> void:
 			direction.UP: sprite.play("Idle Up")
 			direction.RIGHT: sprite.play("Idle Right")
 			direction.LEFT: sprite.play("Idle Left")
-
-func walk(dir: Vector2) -> void:
-	if abs(dir.x) > abs(dir.y):
-		sprite.play("Walk Right" if dir.x > 0 else "Walk Left")
-		face_dir = direction.RIGHT if dir.x > 0 else direction.LEFT
-	else:
-		sprite.play("Walk Down" if dir.y > 0 else "Walk Up")
-		face_dir = direction.DOWN if dir.y > 0 else direction.UP
-	sight_area.rotation = Vector2.DOWN.angle_to(Vector2(get_face_dir()))
-	velocity = dir*speed
-	
-	if not environment.get_sector_rect(current_sector).has_point(global_position):
-		update_sector()
-	
-	move_and_slide()
 
 func update_sector() -> void:
 	old_sector = current_sector
@@ -370,27 +363,6 @@ func drop_item() -> void:
 	environment.items.add_child(item)
 	environment.reg_item(item)
 	item.global_position = drop_pos
-
-func move_at(pos: Vector2i) -> Dictionary:
-	var dir = global_position.direction_to(pos)
-	if global_position.distance_to(pos) <= 8:
-		return {"status": 1}
-	var obstacles = sight_area.get_overlapping_areas()
-	if obstacles.size() > 1 and not current_subtask["evade"]: return {"status": -1, "obstacle": obstacles[0]}
-	
-	if global_position.distance_to(last_position) < 0.1 and velocity != Vector2.ZERO:
-		stuck_timer += 1
-		if stuck_timer >= STUCK_THRESHOLD:
-			stuck_timer = 0.0
-			return {"status": -1, "obstacle": null}
-	else:
-		stuck_timer = max(0.0, stuck_timer - 1)
-	
-	walk(dir)
-	return {"status": 0}
-
-func move_to(target: Node2D) -> bool:
-	return false
 
 func eat() -> void:
 	var food: Item = get_item_held()
@@ -445,21 +417,16 @@ func die() -> void:
 	
 	queue_free()
 
-func is_busy() -> bool:
-	return not (subtasks.is_empty() and\
-	 schedule.is_empty() and\
-	 current_subtask.is_empty() and\
-	 current_task.is_empty())
-
 func wander() -> void:
-	if not is_busy() and randf() >= 0.8:
+	if not tasks.is_busy() and randf() >= 0.8:
 		var pos = global_position+Vector2(randi_range(-500, 500), randi_range(-500, 500))
 		var tile = environment.get_cell(pos)
 		if not environment.nav_grid.is_point_solid(tile):
 			prefered_pos = pos
 
 func AI() -> void:
-	if global_position.distance_to(prefered_pos) > 30 and not is_busy():
-		add_task("mv", [prefered_pos.x, prefered_pos.y, false])
-	
+	if global_position.distance_to(prefered_pos) > 30 and not tasks.is_busy():
+		var new_task = Task.new(Task.types.MOVE, {"pos": Vector2(prefered_pos.x, prefered_pos.y)})
+		tasks.push(new_task)
+		
 	wander()

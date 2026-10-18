@@ -3,12 +3,11 @@ class_name Item
 extends Node2D
 
 enum id {
-	REDBALL, LAMPFRUIT, SUNFRUIT, PUSHFRUIT, 
-	HELLBERRY, SUCKBERRY, WHITEBALLS, BLACKBALL, 
-	CLOWNBERRY, SEGBERRY, BEGBERRY, SPIRITBERRY, 
-	RUSHBERRY, LOG, BOLD_LOG, BRANCH,
-	LEAF, GRASS, CLAY, SAND,
-	ROCK, GRAVEL, MANDIBLE, PRIME_MANDIBLE
+	REDBALL, LAMPFRUIT, SUNFRUIT, PUSHFRUIT, HELLBERRY, SUCKBERRY, WHITEBALLS,
+	BLACKBALL, CLOWNBERRY, SEGBERRY, BEGBERRY, SPIRITBERRY, RUSHBERRY, BUG_FLASH,
+	MEAT, SMALL_MEAT, BONE, LEATHER, CHITINE, MANDIBLE, PRIME_MANDIBLE,
+	LOG, BOLD_LOG, BRANCH, LEAF, GRASS, CLAY, SAND,
+	ROCK, GRAVEL
 }
 
 @export var item_id: id = -1:
@@ -21,7 +20,7 @@ enum id {
 		amount = val
 		update_sprite_region()
 
-var atlas_columns: int = 4
+var atlas_columns: int = 7
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var stack_label: Label = $Counter_Label
 
