@@ -43,14 +43,7 @@ var is_ai_enabled: bool = true
 var tasks: TaskController
 var planner: TaskPlanner
 var nav_agent: NavAgent
-# TO BE REPLACED TaskController
-#---------------------------------
-var schedule: Array = []
-var current_task: Dictionary = {}
 
-var subtasks: Array = []
-var current_subtask: Dictionary = {}
-#---------------------------------
 var task: Task
 
 var stuck_timer: float = 0.0
@@ -59,10 +52,8 @@ var last_position: Vector2
 
 var environment: World
 
-# TO BE REPLACED CommandRunner
-var specific_commands: Array = [
-	"step", "mv", "mv_s", "pos", "give", "drop", "eat", "feed", "expire", "lifetime", "kill", "play", "stop", "stopall", "st", "team", "ai"
-]
+var executor: Executor
+
 var prefered_pos: Vector2
 enum direction {UP, DOWN, LEFT, RIGHT}
 @export var face_dir: direction = direction.DOWN
@@ -81,6 +72,7 @@ func _ready() -> void:
 		nav_agent = NavAgent.new(environment, self)
 		planner = TaskPlanner.new(nav_agent)
 		tasks = TaskController.new(planner)
+		executor = Executor.new(self)
 		
 		create_tween().tween_property(self, "scale", Vector2(1.0, 1.0), 1.0).set_trans(Tween.TRANS_SINE)
 		current_sector = environment.get_sector_key(global_position)
@@ -107,14 +99,13 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or not environment:
 		idle()
 		return
-		
-	idle()
 
 	if not task or task.status == Task.state.COMPLETE:
 		if tasks.is_busy():
 			task = tasks.pull()
 		else:
 			task = null
+			idle()
 		return
 
 	exec_task(task)
@@ -142,28 +133,6 @@ func inspect_sector() -> void:
 	var state = environment.collect_sector_states(sector)
 	knowledges[sector] = state
 
-# ----------------------------------------------
-func add_task(type: String, args: Array) -> void:
-	var task: Dictionary = {"type": type}
-	match type:
-		"mv": 
-			var pos = Vector2(args[0], args[1])
-			if not args[2]:
-				prefered_pos = pos
-			task["pos"] = pos
-		"wait": task["time"] = args[0]
-		
-	schedule.append(task)
-
-func add_subtask(type: String, args: Array) -> void:
-	var subtask: Dictionary = {"type": type}
-	match type:
-		"mv":
-			var pos = Vector2i(args[0], args[1])
-			subtask["pos"] = pos
-			subtask["evade"] = args[2]
-	subtasks.append(subtask)
-
 func exec_task(task: Task) -> int:
 	match task.type:
 		Task.types.WAIT:
@@ -174,9 +143,7 @@ func exec_task(task: Task) -> int:
 		Task.types.MOVE:
 			move_at(task.args["pos"])
 	return task.status
-# ------------------------------------------------
 
-# ------------------------------------------------
 func on_stuck_handle(obstacle: Area2D) -> void:
 	var evade_point = global_position+Vector2(get_face_dir())*100
 	
@@ -195,14 +162,11 @@ func on_stuck_handle(obstacle: Area2D) -> void:
 			direction.LEFT : evade_point.y += get_size()
 			direction.RIGHT: evade_point.y -= get_size()
 			
-	current_subtask = {"type": "mv", "pos": evade_point, "evade": true}
-	#var dir = evade_point.direction_to(prefered_pos)
-	#if abs(dir.y) > abs(dir.x):
-	#	add_subtask("mv", [prefered_pos.x, evade_point.y, false])
-	#	add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
-	#else:
-	#	add_subtask("mv", [evade_point.x, prefered_pos.y, false])
-	#	add_subtask("mv", [prefered_pos.x, prefered_pos.y, false])
+	#current_subtask = {"type": "mv", "pos": evade_point, "evade": true}
+	var new_task = Task.new(Task.types.MOVE, {"pos": evade_point})
+	tasks.push(new_task, true)
+	task.status = Task.state.FAILED
+	task = null
 
 func move_at(pos: Vector2) -> void:
 	var dir = global_position.direction_to(pos)
@@ -246,72 +210,6 @@ func walk(dir: Vector2) -> void:
 		update_sector()
 	
 	move_and_slide()
-# ------------------------------------------------
-
-func exec_command(type: String, args: Array):
-	match type:	
-		"expire":
-			lifetime = 0
-		"lifetime":
-			lifetime = int(args[0])
-		"give":
-			if args.is_empty(): return
-			var item_scene: PackedScene = load("res://scenes/objects/item.tscn")
-			var item: Item = item_scene.instantiate()
-		
-			item.item_id = int(args[0])
-			if len(args) > 1: item.amount = int(args[1])
-			hold_item.add_child(item)
-		"drop":
-			drop_item()
-		"eat":
-			eat()
-		"feed":
-			hunger = 0
-		"pos":
-			if args.size() == 0:
-				return "pos: %d %d" % [position.x, position.y]
-			else:
-				var x = int(args[0])
-				var y = int(args[1])
-				prefered_pos = Vector2(x, y)
-				return "pref pos: %d %d" % [x, y]
-		"sector":
-			var sec = current_sector
-			return "sec: %d %d" % [sec.x, sec.y]
-		"team":
-			return "faction: %s" % faction
-		"play":
-			sprite.play(args[0].replace("_"," "))
-		"st":
-			return "(%d) task: %s\n(%d) subtask: %s" % [schedule.size(), current_task.get("type"), subtasks.size(), current_subtask.get("type")]
-		"kill":
-			income_damage += max_health*100
-		"stop":
-			tasks.cancel_current()
-			velocity = Vector2.ZERO
-		"stopall":
-			tasks.cancel_all()
-			velocity = Vector2.ZERO
-			prefered_pos = global_position
-			idle()
-		"mv": 
-			var new_task = Task.new(Task.types.MOVE, {"pos": Vector2(args[0], args[1])})
-			tasks.push(new_task)
-		"mv_s":
-			var sec_key = Vector2i(int(args[0]), int(args[1]))
-			var sec = environment.sectors.get(sec_key)
-			if sec:
-				var sec_center = sec.get_center()
-				add_task("mv", [sec_center.x, sec_center.y, false])
-		"step":
-			var new_task = Task.new(Task.types.MOVE, {"pos": Vector2(global_position.x+int(args[0]), global_position.y+int(args[1]))})
-			tasks.push(new_task)
-		"ai":
-			match args[0]:
-				"on", "1", "enable", "true": is_ai_enabled = true
-				"off", "0", "disable", "false": is_ai_enabled = false
-				_: is_ai_enabled = false
 
 func idle() -> void:
 	if not sprite: return

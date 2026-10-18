@@ -13,22 +13,24 @@ var is_debug_on: bool = false
 
 var target: Entity
 var line_counter: int = 0
-var commands_no_target: Array = [
-	"clear", "select", "find", "cam", "spawn", "sector", "debug", "item"
-]
+
+enum commands_no_target {
+	CLEAR, SELECT, FIND, CAM, SPAWN, SECTOR, DEBUG, ITEM
+}
 
 func _ready() -> void:
 	Global.entity_selected.connect(_on_entity_selected)
 	Global.entity_unselected.connect(_on_entity_unselected)
 	commands_hint_update(false)
 
-func commands_hint_update(is_target: bool):
+func commands_hint_update(has_target: bool):
 	command_hints_menu.clear()
-	for cmd in commands_no_target:
-		command_hints_menu.add_item(cmd)
-	if is_target:
-		for cmd in target.specific_commands:
-			command_hints_menu.add_item(cmd)
+	if not has_target:
+		for cmd: String in commands_no_target.keys():
+			command_hints_menu.add_item(cmd.to_lower())
+	if has_target:
+		for cmd: String in target.executor.commands.keys():
+			command_hints_menu.add_item(cmd.to_lower())
 
 func _init() -> void:
 	visible = false
@@ -84,11 +86,8 @@ func command(cmd_line: String):
 			if target:
 				camera.position = target.position
 				Global.emit_signal("entity_selected", target)
-				
 		"select":
 			target = world.get_node_or_null(cmd[1])
-			if target:
-				Global.emit_signal("entity_selected", target)
 		"spawn":
 			world.create_entity(cmd[1], camera.global_position)
 		"sector":
@@ -120,7 +119,8 @@ func command(cmd_line: String):
 						get_tree().current_scene.remove_child(Global.debug_node)
 		_:
 			if target:
-				var output = target.exec_command(cmd[0], cmd.slice(1))
+				var command = Cmd.new(cmd_line, true)
+				var output = target.executor.execute(command.type, command.args)
 				if output:
 					info.text += output+"\n"
 
@@ -137,3 +137,86 @@ func _on_entity_unselected(entity: Entity):
 
 func _on_command_hints_item_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	command_line.text = command_hints_menu.get_item_text(index)
+
+class Cmd:
+	var type: int = -1
+	var args: Dictionary = {}
+	var cmd: PackedStringArray
+	
+	func _init(input: String, has_target: bool = false) -> void:
+		cmd = input.split(" ", false)
+		
+		if cmd.is_empty() or cmd[0].is_empty():
+			return
+		
+		if has_target:
+			type = Executor.commands.get(cmd[0].to_upper(), -1)
+			parse_target_cmd()
+		else:
+			type = commands_no_target.get(cmd[0].to_upper(), -1)
+			parse_notarget_cmd()
+		
+	func parse_target_cmd() -> void: 
+		match type:
+			Executor.commands.LIFETIME:
+				if cmd.size() > 1:
+					args["time"] = int(cmd[1])
+			Executor.commands.GIVE:
+				if cmd.size() > 1:
+					args["item_id"] = int(cmd[1])
+				if cmd.size() > 2:
+					args["amount"] = int(cmd[2])
+			Executor.commands.POS:
+				if cmd.size() > 2:
+					args["pos"] = Vector2(
+						int(cmd[1]), int(cmd[2])
+					)
+			Executor.commands.MV:
+				if cmd.size() > 2:
+					args["pos"] = Vector2(
+						int(cmd[1]), int(cmd[2])
+					)
+			Executor.commands.MV_S:
+				if cmd.size() > 2:
+					args["sec_key"] = Vector2i(
+						int(cmd[1]), int(cmd[2])
+					)
+			Executor.commands.STEP:
+				if cmd.size() > 2:
+					args["dest"] = Vector2(
+						int(cmd[1]), int(cmd[2])
+					)
+			Executor.commands.PLAY:
+				if cmd.size() > 1:
+					args["anim_name"] = cmd[1]
+			Executor.commands.AI:
+				if cmd.size() > 1:
+					args["option"] = cmd[1]
+
+	func parse_notarget_cmd() -> void:
+		match type:
+			commands_no_target.ITEM:
+				if cmd.size() > 1:
+					args["item_id"] = int(cmd[1])
+				if cmd.size() > 2:
+					args["amount"] = int(cmd[2])
+			commands_no_target.CAM:
+				if cmd.size() > 2:
+					args["pos"] = Vector2(
+						int(cmd[1]), int(cmd[2])
+					)
+			commands_no_target.FIND:
+				if cmd.size() > 1:
+					args["unit_type"] = cmd[1]
+			commands_no_target.SELECT:
+				if cmd.size() > 1:
+					args["unit_id"] = cmd[1]
+			commands_no_target.SPAWN:
+				if cmd.size() > 1:
+					args["unit_ref"] = cmd[1]
+			commands_no_target.DEBUG:
+				if cmd.size() == 2:
+					args["option"] = cmd[1]
+				elif cmd.size() > 2:
+					args["debug"] = cmd[1]
+					args["option"] = cmd[2]

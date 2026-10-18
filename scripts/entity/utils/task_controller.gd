@@ -55,6 +55,13 @@ func fail() -> void:
 	else: task = schedule[0].subtasks.pop_front()
 	task.status = Task.state.FAILED
 
+func cancel_current() -> void:
+	var task = schedule.pop_front()
+	task.status = Task.state.COMPLETE
+
+func cancel_all() -> void:
+	schedule.clear()
+
 func is_busy() -> bool:
 	if schedule.is_empty(): return false
 	else: return true

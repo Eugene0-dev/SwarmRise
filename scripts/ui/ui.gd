@@ -43,14 +43,11 @@ func _on_entity_selected(entity: Entity):
 func get_task_as_string(entity: Entity, main: bool = true) -> String:
 	var task = "chill"
 	if main:
-		if not entity.current_task.is_empty():
-			task = ""
-			for key in entity.current_task.keys():
-				task += str(entity.current_task[key])+" "
+		if entity.task:
+			task = Task.types.find_key(entity.task.type)
 	else:
-		task = ""
-		if not entity.current_subtask.is_empty():
-			for key in entity.current_subtask.keys():
-				task += str(entity.current_subtask[key])+" "
+		if entity.task:
+			if entity.task.subtasks.get(0):
+				task = Task.types.find_key(entity.task.subtasks.get(0).type)
 			
 	return task

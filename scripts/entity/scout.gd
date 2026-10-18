@@ -6,17 +6,12 @@ var is_onflight: bool = false
 
 func _ready() -> void:
 	super()
-	specific_commands.append("takeoff")
+	executor = ScoutExecutor.new(self)
 
 func AI() -> void:
 	if position.distance_to(prefered_pos) > 250 : takeoff()
 	elif position.distance_to(prefered_pos) < 50 and is_onflight: landing()
 	super()
-
-func exec_command(type: String, args: Array):
-	match type:
-		"takeoff": takeoff()
-		_: return super(type, args)
 
 func idle() -> void:
 	if not is_onflight:

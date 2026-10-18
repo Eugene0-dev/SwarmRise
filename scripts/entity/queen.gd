@@ -4,7 +4,7 @@ extends Entity
 
 func _ready() -> void:
 	super()
-	specific_commands.append("breed")
+	executor = QueenExecutor.new(self)
 
 func AI() -> void:
 	if faction == "none":
@@ -19,10 +19,6 @@ func create_faction() -> String:
 	else:
 		return "Swarm_NaN"
 
-func exec_command(type: String, args: Array):
-	match type:
-		"breed": breed(args[0])
-		_: return super(type, args)
 
 func breed(type: String) -> void:
 	if type == "queen": return

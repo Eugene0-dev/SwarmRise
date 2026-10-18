@@ -23,10 +23,14 @@ func compress_path(path: Array[Vector2i]) -> Array[Vector2i]:
 	compressed_path.append(path[-1])
 	return compressed_path
 
-func find_path(end_point: Vector2) -> Array[Vector2i]:
-	var point = worker.global_position
+func find_path(end_point: Vector2i) -> Array[Vector2i]:
+	var point = global_to_nav(worker.global_position)
+	end_point = global_to_nav(end_point)
 	var path = env.nav_grid.get_id_path(point, end_point)
 	return compress_path(path)
 
 func nav_to_global(cell: Vector2i) -> Vector2:
 	return env.nav_grid.get_point_position(cell)
+
+func global_to_nav(pos: Vector2) -> Vector2i:
+	return env.get_cell(pos)
