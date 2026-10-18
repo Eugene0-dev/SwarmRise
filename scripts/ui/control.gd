@@ -69,10 +69,10 @@ func command(cmd_line: String):
 			info.text = ""
 		commands_no_target.ITEM:
 			var amount: int = 1
-			if len(cmd.args) > 0: amount = cmd.args["amount"]
+			if cmd.args.has("amount", 1) > 0: amount = cmd.args["amount"]
 			world.place_item(cmd.args["item_id"], camera.global_position, amount)
 		commands_no_target.CAM:
-			if len(cmd)>2:
+			if cmd.args.has("pos"):
 				var sec = world.sectors.get(cmd.args["pos"])
 				if sec:
 					camera.position = sec.get_center()
@@ -102,16 +102,16 @@ func command(cmd_line: String):
 				var sec = world.get_sector_key(camera.global_position)
 				info.text += "sec: %d %d\n" % [sec.x, sec.y]
 		commands_no_target.DEBUG:
-			match cmd.args[0]:
+			match cmd.args["debug"]:
 				"nav_layer":
-					if cmd.args[1] == "on":
+					if cmd.args["option"] == "on":
 						Global.emit_signal("nav_layer_enabled", world.nav_grid)
-					elif cmd.args[1] == "off":
+					elif cmd.args["option"] == "off":
 						Global.emit_signal("nav_layer_disabled")
 				"nav_trace":
-					if cmd.args[1] == "on" and target:
+					if cmd.args["option"] == "on" and target:
 						Global.emit_signal("track_navigation_enabled", target)
-					elif cmd.args[1] == "off":
+					elif cmd.args["option"] == "off":
 						Global.emit_signal("track_navigation_disabled")
 				"on":
 					if not is_debug_on:
@@ -207,7 +207,7 @@ class Cmd:
 					args["amount"] = int(cmd[2])
 			commands_no_target.CAM:
 				if cmd.size() > 2:
-					args["pos"] = Vector2(
+					args["pos"] = Vector2i(
 						int(cmd[1]), int(cmd[2])
 					)
 			commands_no_target.FIND:
