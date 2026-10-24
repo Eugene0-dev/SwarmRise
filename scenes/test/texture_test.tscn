@@ -4811,6 +4811,8 @@ position = Vector2(659, 262)
 
 [node name="Item2" parent="TileMapLayer3" unique_id=194306710 instance=ExtResource("10_xapkw")]
 position = Vector2(828, 490)
+item_id = 0
+amount = 3
 
 [node name="TileMapLayer4" type="TileMapLayer" parent="." unique_id=92891408]
 texture_filter = 1

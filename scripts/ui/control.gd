@@ -69,7 +69,8 @@ func command(cmd_line: String):
 			info.text = ""
 		commands_no_target.ITEM:
 			var amount: int = 1
-			if cmd.args.has("amount", 1) > 0: amount = cmd.args["amount"]
+			if cmd.args.has("amount"): amount = cmd.args["amount"]
+			else: amount = 1
 			world.place_item(cmd.args["item_id"], camera.global_position, amount)
 		commands_no_target.CAM:
 			if cmd.args.has("pos"):
